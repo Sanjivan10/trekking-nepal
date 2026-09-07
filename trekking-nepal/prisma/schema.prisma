@@ -1,0 +1,247 @@
+// Trekking Nepal — content model
+// SQLite by default. To move to PostgreSQL: change provider to "postgresql"
+// and point DATABASE_URL at your Postgres instance. No model changes needed.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+/// Regional pillar / hub page (Everest, Manaslu, Langtang...). Hub of the
+/// hub-and-spoke internal linking model: links down to child trips + guides.
+model Region {
+  id          String @id @default(cuid())
+  slug        String @unique
+  name        String
+  headline    String @default("")
+  description String @default("") // Markdown — pillar page body
+  heroImage   String @default("")
+  heroAlt     String @default("")
+
+  metaTitle       String @default("")
+  metaDescription String @default("")
+  keywords        String @default("")
+  entityTags      String @default("") // entities this hub owns
+  keyTakeaway     String @default("")
+  takeaways       String @default("")
+
+  position  Int      @default(0)
+  featured  Boolean  @default(false)
+  status    String   @default("published") // draft | published
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  itineraries Itinerary[]
+  blogs       Blog[]
+  faqs        Faq[]
+
+  @@index([status])
+}
+
+model Blog {
+  id      String @id @default(cuid())
+  slug    String @unique
+  title   String
+  excerpt String @default("")
+  content String @default("") // Markdown
+
+  // Media
+  bannerImage String @default("")
+  bannerAlt   String @default("")
+
+  // SEO
+  metaTitle         String @default("")
+  metaDescription   String @default("")
+  primaryKeywords   String @default("") // comma-separated, unlimited
+  secondaryKeywords String @default("") // comma-separated, unlimited
+  canonicalUrl      String @default("")
+
+  // Authorship
+  author      String @default("")
+  authorTitle String @default("")
+  authorBio   String @default("")
+  authorImage String @default("")
+
+  // AEO / GEO
+  keyTakeaway String @default("") // direct-answer paragraph for AI engines
+  takeaways   String @default("") // one bullet per line — LLM extraction box
+  readMinutes Int    @default(0)
+
+  // Internal linking engine
+  entityTags String  @default("") // comma-separated entities: Everest, Gear, Permits
+  regionId   String?
+  region     Region? @relation(fields: [regionId], references: [id], onDelete: SetNull)
+
+  // Cross-domain backlink controller (main site)
+  mainSiteUrl      String @default("") // e.g. https://beyondthetrek.com/trip/ebc
+  primaryAnchor    String @default("") // e.g. "book the official EBC trek"
+  secondaryAnchors String @default("") // comma-separated anchor variations
+  backlinksEnabled Boolean @default(true)
+
+  status      String    @default("draft") // draft | published
+  featured    Boolean   @default(false)
+  publishedAt DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  faqs Faq[]
+
+  @@index([status, publishedAt])
+  @@index([regionId])
+}
+
+model Itinerary {
+  id    String @id @default(cuid())
+  slug  String @unique
+  title String
+
+  // SEO
+  metaTitle       String @default("")
+  metaDescription String @default("")
+  keywords        String @default("") // comma-separated target keywords
+  canonicalUrl    String @default("")
+
+  // Media
+  bannerImage String @default("")
+  bannerAlt   String @default("")
+  heroImage   String @default("") // full-width high-res hero
+  gallery     String @default("") // one image URL per line
+
+  // Advertisement banner slot
+  adImage String @default("")
+  adAlt   String @default("")
+  adLink  String @default("")
+  adLabel String @default("Sponsored")
+
+  // Overview / summary
+  overview       String @default("") // Markdown
+  keyTakeaway    String @default("") // direct-answer paragraph for AEO/GEO
+  takeaways      String @default("") // one bullet per line — LLM extraction box
+  durationDays   Int    @default(0)
+  durationNights Int    @default(0)
+  maxAltitude    String @default("") // e.g. "5,364 m / 17,598 ft"
+  bestSeason     String @default("")
+  difficulty     String @default("Moderate")
+  startPoint     String @default("")
+  endPoint       String @default("")
+  groupSize      String @default("")
+  accommodation  String @default("")
+  transportation String @default("")
+
+  // Pricing
+  priceFrom Float  @default(0)
+  priceTo   Float  @default(0)
+  currency  String @default("USD")
+
+  // List blocks (one item per line)
+  highlights String @default("")
+  includes   String @default("")
+  excludes   String @default("")
+
+  // Internal linking engine
+  entityTags String  @default("")
+  regionId   String?
+  region     Region? @relation(fields: [regionId], references: [id], onDelete: SetNull)
+
+  // Cross-domain backlink controller (main site)
+  mainSiteUrl      String @default("")
+  primaryAnchor    String @default("")
+  secondaryAnchors String @default("")
+  backlinksEnabled Boolean @default(true)
+  ctaHeadline      String @default("")
+  ctaText          String @default("")
+
+  // Aggregate rating — recomputed from approved reviews on write
+  ratingValue Float @default(0)
+  reviewCount Int   @default(0)
+
+  status      String    @default("draft") // draft | published
+  featured    Boolean   @default(false)
+  publishedAt DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  days    ItineraryDay[]
+  faqs    Faq[]
+  reviews Review[]
+
+  @@index([status, publishedAt])
+  @@index([regionId])
+}
+
+model ItineraryDay {
+  id            String @id @default(cuid())
+  itineraryId   String
+  dayNumber     Int
+  title         String @default("")
+  description   String @default("")
+  accommodation String @default("")
+  meals         String @default("")
+  distance      String @default("")
+  duration      String @default("")
+  altitude      String @default("")
+  image         String @default("")
+
+  itinerary Itinerary @relation(fields: [itineraryId], references: [id], onDelete: Cascade)
+
+  @@index([itineraryId, dayNumber])
+}
+
+model Review {
+  id          String   @id @default(cuid())
+  itineraryId String
+  authorName  String
+  country     String   @default("")
+  rating      Int      @default(5) // 1..5
+  title       String   @default("")
+  body        String   @default("")
+  approved    Boolean  @default(true) // public submissions arrive as false
+  reviewedAt  DateTime @default(now())
+  createdAt   DateTime @default(now())
+
+  itinerary Itinerary @relation(fields: [itineraryId], references: [id], onDelete: Cascade)
+
+  @@index([itineraryId, approved])
+}
+
+model Faq {
+  id       String @id @default(cuid())
+  question String
+  answer   String
+  position Int    @default(0)
+
+  blogId      String?
+  itineraryId String?
+  regionId    String?
+
+  blog      Blog?      @relation(fields: [blogId], references: [id], onDelete: Cascade)
+  itinerary Itinerary? @relation(fields: [itineraryId], references: [id], onDelete: Cascade)
+  region    Region?    @relation(fields: [regionId], references: [id], onDelete: Cascade)
+
+  @@index([blogId])
+  @@index([itineraryId])
+  @@index([regionId])
+}
+
+/// Global keyword -> main-site URL map used by lib/backlinkEngine.ts.
+/// The engine converts the first in-body occurrence of `keyword` into a
+/// dofollow link to `targetUrl`. Managed from /admin/backlinks.
+model BacklinkTarget {
+  id          String  @id @default(cuid())
+  keyword     String  @unique // phrase matched in body copy
+  targetUrl   String           // absolute URL on the main site
+  anchorText  String  @default("") // override; defaults to the matched phrase
+  variations  String  @default("") // comma-separated anchor variations
+  priority    Int     @default(0)  // higher wins when phrases overlap
+  maxPerPage  Int     @default(1)  // occurrences to convert per page
+  active      Boolean @default(true)
+  notes       String  @default("")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([active, priority])
+}
