@@ -47,7 +47,25 @@ function imageUrl(src?: string | null) {
 export const ORGANIZATION_ID = `${site.url}/#organization`;
 export const WEBSITE_ID = `${site.url}/#website`;
 
-export function organizationSchema(): Json {
+/** Contact details are editable in /admin/footer; blank fields are omitted. */
+export type OrgOverrides = {
+  contactEmail?: string;
+  contactPhone?: string;
+  contactAddress?: string;
+  socialFacebook?: string;
+  socialInstagram?: string;
+  socialYoutube?: string;
+  socialX?: string;
+};
+
+export function organizationSchema(overrides: OrgOverrides = {}): Json {
+  const sameAs = [
+    overrides.socialFacebook,
+    overrides.socialInstagram,
+    overrides.socialYoutube,
+    overrides.socialX,
+  ].filter((url): url is string => Boolean(url?.trim()));
+
   return prune({
     "@type": ["Organization", "TravelAgency", "LocalBusiness"],
     "@id": ORGANIZATION_ID,
@@ -61,13 +79,13 @@ export function organizationSchema(): Json {
     },
     image: imageUrl(site.logo),
     description: site.description,
-    email: site.email,
-    telephone: site.phone,
+    email: overrides.contactEmail?.trim() || undefined,
+    telephone: overrides.contactPhone?.trim() || undefined,
     foundingDate: site.foundingDate,
     priceRange: "$$",
     address: {
       "@type": "PostalAddress",
-      streetAddress: site.address.street,
+      streetAddress: overrides.contactAddress?.trim() || undefined,
       addressLocality: site.address.city,
       addressRegion: site.address.region,
       postalCode: site.address.postalCode,
@@ -80,7 +98,7 @@ export function organizationSchema(): Json {
     },
     areaServed: { "@type": "Country", name: "Nepal" },
     knowsLanguage: ["en", "ne"],
-    sameAs: [...site.social],
+    sameAs: sameAs.length ? sameAs : undefined,
   });
 }
 
@@ -105,8 +123,11 @@ export function websiteSchema(): Json {
 }
 
 /** Header/footer graph — emitted once per page in the root layout. */
-export function siteGraph(): Json {
-  return { "@context": "https://schema.org", "@graph": [organizationSchema(), websiteSchema()] };
+export function siteGraph(overrides: OrgOverrides = {}): Json {
+  return {
+    "@context": "https://schema.org",
+    "@graph": [organizationSchema(overrides), websiteSchema()],
+  };
 }
 
 /* ------------------------------------------------------------------ */

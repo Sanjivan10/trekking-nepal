@@ -38,7 +38,7 @@ export async function PUT(request: Request, { params }: Params) {
           faqs: { create: faqRows(body).map((faq, i) => ({ ...faq, position: i })) },
         },
       });
-    });
+    }, { timeout: 20000, maxWait: 10000 });
 
     revalidateContent([
       `/blog/${post.slug}`,

@@ -248,3 +248,94 @@ model BacklinkTarget {
 
   @@index([active, priority])
 }
+
+/// Single-row table holding editable site/footer settings.
+/// Always addressed with id = "singleton".
+model SiteSettings {
+  id String @id @default("singleton")
+
+  // ---- Footer content ----
+  footerTagline String @default("")
+  footerAbout   String @default("")
+
+  // Contact block — hidden unless showContact is on and fields are filled.
+  showContact    Boolean @default(false)
+  contactAddress String  @default("")
+  contactEmail   String  @default("")
+  contactPhone   String  @default("")
+
+  // Social links (blank = hidden)
+  socialFacebook  String @default("")
+  socialInstagram String @default("")
+  socialYoutube   String @default("")
+  socialTiktok    String @default("")
+  socialX         String @default("")
+
+  // ---- Call-to-action strip ----
+  showCta     Boolean @default(true)
+  ctaTitle    String  @default("")
+  ctaText     String  @default("")
+  ctaLabel    String  @default("")
+  ctaUrl      String  @default("")
+
+  // ---- Colours (hex) ----
+  footerBg       String @default("#0d1019")
+  footerBgTo     String @default("#0d1019") // gradient end; same value = flat
+  footerText     String @default("#aeb7c8")
+  footerHeading  String @default("#ffffff")
+  footerAccent   String @default("#38d391")
+  footerBorder   String @default("#ffffff1a")
+
+  // ---- Sizing (px / rem steps) ----
+  footerFontSize    Int @default(14)
+  footerHeadingSize Int @default(13)
+  footerPaddingY    Int @default(56)
+  footerRadius      Int @default(0)
+  footerMaxWidth    Int @default(1280)
+
+  // ---- Mountain scene ----
+  showMountains   Boolean @default(true)
+  showTrekkers    Boolean @default(true)
+  showPrayerFlags Boolean @default(true)
+  showStars       Boolean @default(true)
+  mountainColor   String  @default("#1b2030")
+  mountainColor2  String  @default("#252b3d")
+  snowColor       String  @default("#e8eef7")
+  trekkerColor    String  @default("#38d391")
+  sceneHeight     Int     @default(120)
+
+  // ---- Bottom bar ----
+  copyrightText String  @default("")
+  showCredit    Boolean @default(true)
+
+  updatedAt DateTime @updatedAt
+
+  columns FooterColumn[]
+}
+
+/// An editable link column in the footer.
+model FooterColumn {
+  id         String @id @default(cuid())
+  settingsId String @default("singleton")
+  title      String
+  position   Int    @default(0)
+  visible    Boolean @default(true)
+
+  settings SiteSettings @relation(fields: [settingsId], references: [id], onDelete: Cascade)
+  links    FooterLink[]
+
+  @@index([settingsId, position])
+}
+
+model FooterLink {
+  id       String  @id @default(cuid())
+  columnId String
+  label    String
+  href     String
+  external Boolean @default(false)
+  position Int     @default(0)
+
+  column FooterColumn @relation(fields: [columnId], references: [id], onDelete: Cascade)
+
+  @@index([columnId, position])
+}

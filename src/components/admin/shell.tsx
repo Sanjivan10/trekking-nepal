@@ -10,6 +10,7 @@ import {
   Mountain,
   Link2,
   Star,
+  Palette,
   LogOut,
   Menu,
   X,
@@ -24,6 +25,7 @@ const NAV = [
   { href: "/admin/regions", label: "Regions", icon: Map },
   { href: "/admin/backlinks", label: "Backlink engine", icon: Link2 },
   { href: "/admin/reviews", label: "Reviews", icon: Star },
+  { href: "/admin/footer", label: "Footer & design", icon: Palette },
 ];
 
 export function AdminShell({ user, children }: { user: string; children: React.ReactNode }) {

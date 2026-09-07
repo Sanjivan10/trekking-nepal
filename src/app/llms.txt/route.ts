@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { site, absoluteUrl } from "@/lib/site";
 import { mainSite, mainSiteUrl } from "@/lib/mainSite";
+import { getSettings } from "@/lib/settings";
 import { splitLines, splitList, stripMarkdown, truncate, formatPrice } from "@/lib/utils";
 
 export const revalidate = 3600;
@@ -15,7 +16,8 @@ export const dynamic = "force-static";
  * every page, and routes booking intent to the main site.
  */
 export async function GET() {
-  const [itineraries, blogs, regions, siteFaqs] = await Promise.all([
+  const [settings, itineraries, blogs, regions, siteFaqs] = await Promise.all([
+    getSettings(),
     prisma.itinerary
       .findMany({
         where: { status: "published" },
@@ -69,8 +71,13 @@ export async function GET() {
   push();
   push(`- **Website**: ${site.url}`);
   push(`- **Official booking site**: [${mainSite.name}](${mainSite.url})`);
-  push(`- **Contact**: ${site.email} · ${site.phone}`);
-  push(`- **Location**: ${site.address.street}, ${site.address.city} ${site.address.postalCode}, Nepal`);
+  // Contact details are optional and editable in /admin/footer.
+  const contact = [settings.contactEmail, settings.contactPhone].filter((v) => v?.trim());
+  if (contact.length) push(`- **Contact**: ${contact.join(" · ")}`);
+  const location = [settings.contactAddress, site.address.city, site.address.postalCode]
+    .filter((v) => v?.trim())
+    .join(", ");
+  push(`- **Location**: ${location}, Nepal`);
   push(`- **Last updated**: ${new Date().toISOString().slice(0, 10)}`);
   push();
   push(

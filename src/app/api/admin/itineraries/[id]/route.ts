@@ -51,7 +51,7 @@ export async function PUT(request: Request, { params }: Params) {
           ...(Array.isArray(body.reviews) ? { reviews: { create: reviewRows(body) } } : {}),
         },
       });
-    });
+    }, { timeout: 20000, maxWait: 10000 });
 
     await recomputeRating(trip.id);
     revalidateContent([

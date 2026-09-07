@@ -7,6 +7,7 @@ import { JsonLd } from "@/components/json-ld";
 import { siteGraph } from "@/lib/schema";
 import { site } from "@/lib/site";
 import { prisma } from "@/lib/prisma";
+import { getSettings } from "@/lib/settings";
 
 // self-hosted via next/font — no render-blocking request to Google
 const inter = Inter({
@@ -72,7 +73,8 @@ export const viewport: Viewport = {
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   // Nav + footer data. Wrapped so a cold/empty DB never breaks the shell.
-  const [regions, trips] = await Promise.all([
+  const [settings, regions, trips] = await Promise.all([
+    getSettings(),
     prisma.region
       .findMany({
         where: { status: "published" },
@@ -96,10 +98,10 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <a href="#main" className="skip-link">
           Skip to content
         </a>
-        <JsonLd id="site-graph" data={siteGraph()} />
+        <JsonLd id="site-graph" data={siteGraph(settings)} />
         <SiteHeader regions={regions} />
         <main id="main">{children}</main>
-        <SiteFooter regions={regions} trips={trips} />
+        <SiteFooter settings={settings} regions={regions} trips={trips} />
       </body>
     </html>
   );
