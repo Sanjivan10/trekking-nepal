@@ -33,7 +33,8 @@ Admin panel: **http://localhost:3000/admin** — default credentials `admin` / `
 ## Environment
 
 ```env
-DATABASE_URL="file:./dev.db"
+DATABASE_URL="postgresql://…pooler…/neondb?sslmode=require&pgbouncer=true"
+DATABASE_URL_UNPOOLED="postgresql://…direct…/neondb?sslmode=require"
 NEXT_PUBLIC_SITE_URL="http://localhost:3000"     # canonicals, sitemap, robots, llms.txt
 NEXT_PUBLIC_MAIN_SITE_URL="https://beyondthetrek.com"
 NEXT_PUBLIC_MAIN_SITE_NAME="Beyond The Trek"
@@ -42,7 +43,7 @@ ADMIN_PASSWORD="trekadmin123"
 AUTH_SECRET="…long random string…"
 ```
 
-**Switching to PostgreSQL:** change `provider` to `postgresql` in `prisma/schema.prisma`, point `DATABASE_URL` at your instance, run `npm run db:push`. No model changes required.
+**Database:** PostgreSQL on Neon. `DATABASE_URL` is the pooled connection used at runtime; `DATABASE_URL_UNPOOLED` is the direct connection Prisma needs for `db push`.
 
 ---
 

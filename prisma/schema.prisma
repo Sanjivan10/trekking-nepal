@@ -1,14 +1,17 @@
 // Trekking Nepal — content model
-// SQLite by default. To move to PostgreSQL: change provider to "postgresql"
-// and point DATABASE_URL at your Postgres instance. No model changes needed.
+// PostgreSQL (Neon). DATABASE_URL is the pooled connection used at runtime;
+// DATABASE_URL_UNPOOLED is the direct connection used for schema changes.
 
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "sqlite"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  // Pooled connection (PgBouncer) — used by the app at runtime.
+  url       = env("DATABASE_URL")
+  // Direct connection — required for schema changes, which PgBouncer blocks.
+  directUrl = env("DATABASE_URL_UNPOOLED")
 }
 
 /// Regional pillar / hub page (Everest, Manaslu, Langtang...). Hub of the
