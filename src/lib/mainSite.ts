@@ -1,6 +1,6 @@
 export const mainSite = {
-  url: (process.env.NEXT_PUBLIC_MAIN_SITE_URL || "https://beyondthetrek.com").replace(/\/$/, ""),
-  name: process.env.NEXT_PUBLIC_MAIN_SITE_NAME || "Beyond The Trek",
+  url: (process.env.NEXT_PUBLIC_MAIN_SITE_URL || "https://www.beyondthelimitstreks.com").replace(/\/$/, ""),
+  name: process.env.NEXT_PUBLIC_MAIN_SITE_NAME || "Beyond The Limits Treks and Expedition",
 };
 
 export const MAIN_SITE_ID = `${mainSite.url}/#organization`;

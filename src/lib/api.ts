@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { getSession } from "./auth";
 import { sameOrigin } from "./security";
 import { submitToIndexNow } from "./indexnow";
@@ -47,6 +47,14 @@ export function revalidateContent(paths: string[] = []) {
     } catch {
       // revalidatePath throws outside a request scope — safe to ignore.
     }
+  }
+  // Also bust the unstable_cache-backed queries behind /nepal-trekking-routes
+  // (that page reads searchParams, so revalidatePath alone can't reach it).
+  try {
+    revalidateTag("itineraries");
+    revalidateTag("regions");
+  } catch {
+    // same — safe to ignore outside a request scope
   }
 }
 

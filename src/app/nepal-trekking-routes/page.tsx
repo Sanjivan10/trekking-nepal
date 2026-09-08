@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { unstable_cache } from "next/cache";
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { PUBLISHED, tripCardSelect, getRegions } from "@/lib/content";
@@ -9,8 +10,6 @@ import { Breadcrumbs } from "@/components/site/breadcrumbs";
 import { JsonLd } from "@/components/json-ld";
 import { collectionPageSchema, breadcrumbSchema } from "@/lib/schema";
 import { cn } from "@/lib/utils";
-
-export const revalidate = 3600;
 
 const TITLE = "All Nepal Trekking Itineraries — Day-by-Day Routes, Costs & Difficulty";
 const DESCRIPTION =
@@ -50,14 +49,27 @@ export default async function ItineraryIndexPage({
       : {}),
   };
 
-  const [trips, regions] = await Promise.all([
-    prisma.itinerary.findMany({
-      where,
-      orderBy: [{ featured: "desc" }, { ratingValue: "desc" }, { durationDays: "asc" }],
-      select: tripCardSelect,
-    }),
-    getRegions(),
-  ]);
+  // This page reads searchParams, which forces Next to render it dynamically
+  // on every request — `export const revalidate` has no effect here, so the
+  // DB queries themselves are cached instead, keyed by the resolved filters.
+  // Admin saves call revalidateTag("itineraries"/"regions") to bust this.
+  const cacheKey = JSON.stringify({ region: params.region, difficulty: params.difficulty, duration: params.duration });
+  const getFilteredTrips = unstable_cache(
+    (whereClause: typeof where) =>
+      prisma.itinerary.findMany({
+        where: whereClause,
+        orderBy: [{ priority: "asc" }, { featured: "desc" }, { ratingValue: "desc" }, { durationDays: "asc" }],
+        select: tripCardSelect,
+      }),
+    ["itinerary-listing", cacheKey],
+    { revalidate: 1800, tags: ["itineraries"] },
+  );
+  const getCachedRegions = unstable_cache(() => getRegions(), ["itinerary-listing-regions"], {
+    revalidate: 1800,
+    tags: ["regions"],
+  });
+
+  const [trips, regions] = await Promise.all([getFilteredTrips(where), getCachedRegions()]);
 
   const hasFilters = Boolean(params.region || params.duration || params.difficulty);
   const crumbs = [{ name: "Nepal Trekking Routes", href: "/nepal-trekking-routes" }];
