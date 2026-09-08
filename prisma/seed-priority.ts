@@ -20,7 +20,7 @@ const REGIONS = [
     headline:
       "Thorong La at 5,416m, Muktinath, and hot springs at Tatopani — the classic circuit with the most scenery per day.",
     heroImage:
-      "https://images.unsplash.com/photo-1522527365850-e3c6f6c30d1e?auto=format&fit=crop&w=2000&q=70",
+      "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=2000&q=70",
     heroAlt: "Annapurna range above the Marsyangdi valley in Nepal",
     metaTitle: "Annapurna Trekking — Circuit, Thorong La & Costs",
     metaDescription:

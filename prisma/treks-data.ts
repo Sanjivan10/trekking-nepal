@@ -58,7 +58,7 @@ export const priorityTreks = [
     gallery: [
       "https://images.unsplash.com/photo-1486911278844-a81c5267e227?auto=format&fit=crop&w=1200&q=70",
       "https://images.unsplash.com/photo-1454391304352-2bf4678b1a7a?auto=format&fit=crop&w=1200&q=70",
-      "https://images.unsplash.com/photo-1522527365850-e3c6f6c30d1e?auto=format&fit=crop&w=1200&q=70",
+      "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1200&q=70",
     ].join("\n"),
     keyTakeaway:
       "14 days, 5,545m at the top of Kala Patthar, and US$1,199 per person if you bring a group of 10-12. No technical climbing, no ropes — just a lot of walking uphill while the air gets thinner. If you can handle six hours of walking on back-to-back days, you can handle this.",
@@ -195,7 +195,7 @@ Dal Bhat Power 24 Hour is not a meme up here; it's actual rocket fuel. Free refi
     bannerAlt: "Manaslu seen from the Nubri valley on the Manaslu Circuit trek",
     gallery: [
       "https://images.unsplash.com/photo-1571401835393-8c5f35328320?auto=format&fit=crop&w=1200&q=70",
-      "https://images.unsplash.com/photo-1522527365850-e3c6f6c30d1e?auto=format&fit=crop&w=1200&q=70",
+      "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1200&q=70",
     ].join("\n"),
     keyTakeaway:
       "15 days around the world's 8th highest mountain, over a 5,106m pass, for US$995 per person in a group of 2-6. Restricted area, so you legally need a guide and a minimum of two trekkers — which is precisely why it stays empty while Annapurna fills up.",
@@ -321,7 +321,7 @@ Do EBC first if this is your first time at altitude. Do Manaslu if you've done t
       { label: "10 - 12 pax", price: 799 },
     ] as Tier[],
     heroImage:
-      "https://images.unsplash.com/photo-1522527365850-e3c6f6c30d1e?auto=format&fit=crop&w=2400&q=72",
+      "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=2400&q=72",
     bannerImage:
       "https://images.unsplash.com/photo-1486911278844-a81c5267e227?auto=format&fit=crop&w=1200&q=72",
     bannerAlt: "Thorong La Pass on the Annapurna Circuit trek in Nepal",

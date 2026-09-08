@@ -26,6 +26,8 @@ export type ClusterPost = {
   metaTitle: string;
   metaDescription: string;
   excerpt: string;
+  bannerImage: string;
+  bannerAlt: string;
   primaryKeywords: string;
   secondaryKeywords: string;
   entityTags: string;
@@ -46,6 +48,8 @@ export const clusterPosts: ClusterPost[] = [
       "Every Manaslu Circuit trek itinerary length explained: what a real 15-day trek includes, what a 7-day version actually cuts, and the full day-by-day route.",
     excerpt:
       "You'll see this trek advertised anywhere from 7 to 15 days. Here's what changes between them, and why the short ones cut the days that keep you safe.",
+    bannerImage: "https://images.unsplash.com/photo-1516483638261-f4dbaf036963?auto=format&fit=crop&w=1200&q=72",
+    bannerAlt: "Trekkers descending a switchback trail on the Manaslu Circuit",
     primaryKeywords: "manaslu circuit trek itinerary, manaslu trek itinerary",
     secondaryKeywords:
       "manaslu trekking itinerary, itinerary of manaslu trek, manaslu trek detailed itinerary, manaslu circuit trek itinerary 7 days, manaslu circuit trek itinerary 10 days, 12 days manaslu trek itinerary, manaslu circuit trek 14 days itinerary, 14 days manaslu trek itinerary, 15 days manaslu trek itinerary, manaslu itinerary, manaslu circuit how many days, manaslu trek 10 days, manaslu trekking itinerary, manaslu circuit trekking itinerary, 14 days manaslu circuit trekking itinerary",
@@ -143,6 +147,8 @@ If you have 15 days free, take the full itinerary with both acclimatisation days
       "What the Manaslu Circuit trek costs in 2026: permits, guide, porter, jeep transfers and teahouses, line by line, plus group discount pricing and Nepali-citizen rates.",
     excerpt:
       "Three permits, two jeep transfers, a mandatory guide — here's exactly where a Manaslu Circuit trek quote comes from, and where a cheap one is cutting corners.",
+    bannerImage: "https://images.unsplash.com/photo-1553913861-c0fddf2619ee?auto=format&fit=crop&w=1200&q=72",
+    bannerAlt: "Teahouse lodges along the Manaslu Circuit trekking route",
     primaryKeywords: "manaslu trek cost, manaslu trek price",
     secondaryKeywords:
       "manaslu trek cost for nepali, manaslu circuit trek cost and itinerary, manaslu base camp trek cost, manaslu circuit trek package",
@@ -232,6 +238,8 @@ If a price comes in noticeably under US$900 for a 2-6 person group, ask directly
       "Where the Manaslu Circuit trek actually goes: total distance, the route from the Budhi Gandaki valley over Larkya La, and why there's no single official map PDF.",
     excerpt:
       "There's no single government-issued Manaslu trek map — here's the route geography, the real distance, and where to find one that's actually accurate.",
+    bannerImage: "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1200&q=72",
+    bannerAlt: "The Budhi Gandaki valley route on the Manaslu Circuit",
     primaryKeywords: "manaslu trek map, manaslu circuit trek map",
     secondaryKeywords:
       "manaslu map, manaslu circuit trek map with distance, manaslu circuit trek map pdf, manaslu circuit trek distance, manaslu trek distance, manaslu base camp trek map, where is manaslu located, manaslu range",
@@ -310,6 +318,8 @@ For planning purposes, the most useful "map" is simply the stage-by-stage route 
       "How hard is the Manaslu Circuit trek, really? Trip grade, daily distances, the Larkya La crossing, and what actually determines whether you'll struggle.",
     excerpt:
       "Moderate-Strenuous on paper. Here's what that actually means day to day, and what separates the trekkers who breeze through from the ones who don't.",
+    bannerImage: "https://images.unsplash.com/photo-1483728642387-6c3bdd6c93e5?auto=format&fit=crop&w=1200&q=72",
+    bannerAlt: "A trekker climbing a steep, high-altitude section of trail",
     primaryKeywords: "manaslu circuit trek difficulty",
     secondaryKeywords: "is manaslu harder than everest, manaslu circuit trek best company, manaslu circuit trek reddit, trekking manaslu",
     entityTags: "Manaslu, Difficulty, Altitude, Larkya La",
@@ -389,6 +399,8 @@ If you've trekked above 4,000m before and know roughly how your body handles alt
       "The three permits required for the Manaslu Circuit trek: exact costs, where each is checked, why a guide is mandatory, and how the Annapurna permit fits in.",
     excerpt:
       "Three permits, three different price structures, and one that surprises almost everyone. Here's what's actually required and why.",
+    bannerImage: "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1200&q=72",
+    bannerAlt: "A restricted-area checkpoint sign on the Manaslu trekking route",
     primaryKeywords: "manaslu circuit trek permits cost",
     secondaryKeywords: "annapurna circuit trek permit cost, manaslu restricted area permit",
     entityTags: "Manaslu, Permits, Restricted Area, ACAP",
@@ -464,6 +476,8 @@ All three permits are arranged and included in the [Manaslu Circuit Trek package
       "Manaslu Base Camp sits around 4,800m and is usually reached as a side hike from Samagaun, not a separate trek. Here's how it fits into the full Circuit itinerary.",
     excerpt:
       "Most people searching for a 'Manaslu Base Camp trek' actually just need one extra day added to the Circuit itinerary. Here's why.",
+    bannerImage: "https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=1200&q=72",
+    bannerAlt: "Manaslu's summit ridge seen from near base camp",
     primaryKeywords: "manaslu base camp trek",
     secondaryKeywords:
       "manaslu base camp trek itinerary, manaslu base camp trek cost, manaslu base camp height, manaslu summit trek, manaslu base camp trek map, manaslu expedition itinerary",
@@ -537,6 +551,8 @@ If you're already booking the full Manaslu Circuit, yes — it's the standard ac
       "Mount Manaslu: 8,163m, the world's 8th highest peak, first climbed in 1956. What the mountain's climbing history means (and doesn't mean) for the trekking route.",
     excerpt:
       "Manaslu's summit has a serious climbing history. The trekking route around its base is a completely different, non-technical trail — here's the distinction people miss.",
+    bannerImage: "https://images.unsplash.com/photo-1461301214746-1e109215d6d3?auto=format&fit=crop&w=1200&q=72",
+    bannerAlt: "Mount Manaslu, the eighth highest mountain in the world",
     primaryKeywords: "manaslu mountain, manaslu height",
     secondaryKeywords: "manaslu deaths, manaslu range, trekking manaslu, where is manaslu located, manaslu expedition itinerary",
     entityTags: "Manaslu, Mountain Facts, Mansiri Himal",
@@ -605,6 +621,8 @@ Because this confusion is common enough to repeat: a **Manaslu expedition** (cli
       "Tsum Valley is a separate restricted valley branching off the Manaslu Circuit near Lokpa — Mu Gompa, Rachen Gompa, Milarepa's Cave, and how it extends your itinerary.",
     excerpt:
       "Tsum Valley isn't part of the standard Manaslu Circuit — it's a separate sacred valley you branch into, with its own permit and its own quiet, mostly-untouched villages.",
+    bannerImage: "https://images.unsplash.com/photo-1526772662000-3f88f10405ff?auto=format&fit=crop&w=1200&q=72",
+    bannerAlt: "Prayer flags and mani walls in the Tsum Valley",
     primaryKeywords: "manaslu tsum valley trek itinerary, manaslu tsum valley trekking itinerary",
     secondaryKeywords: "Tsum Valley side trek Manaslu, manaslu circuit trek map",
     entityTags: "Manaslu, Tsum Valley, Mu Gompa, Prok",
@@ -676,6 +694,8 @@ If your schedule allows the extra week and you're drawn to genuinely remote Tibe
       "Above Samagaun, the Manaslu Circuit's upper route runs through Samdo toward the old Tibet trading trail — the quietest, highest stretch before Larkya La.",
     excerpt:
       "The stretch above Samagaun is where Manaslu stops feeling like a trek and starts feeling like an expedition. Here's what's actually up there.",
+    bannerImage: "https://images.unsplash.com/photo-1533130061792-64b345e4a833?auto=format&fit=crop&w=1200&q=72",
+    bannerAlt: "High alpine terrain near Samdo on the Manaslu upper route",
     primaryKeywords: "manaslu upper route",
     secondaryKeywords: "Siring Gompa, Kaal Taal, manaslu circuit trek, trekking manaslu",
     entityTags: "Manaslu, Samdo, Tibet Border, Larkya La",
@@ -739,6 +759,8 @@ It's easy to treat the days between Samagaun and Dharamsala as a countdown to La
       "Manaslu expedition and Manaslu Circuit trek share a mountain and a name, and almost nothing else. Here's what actually separates the summit climb from the trekking route.",
     excerpt:
       "Two completely different trips share almost the same name. If you've searched both terms and gotten confused, this clears it up.",
+    bannerImage: "https://images.unsplash.com/photo-1519904981063-b0cf448d479e?auto=format&fit=crop&w=1200&q=72",
+    bannerAlt: "Climbers on a fixed rope on a Himalayan expedition route",
     primaryKeywords: "manaslu expedition itinerary",
     secondaryKeywords: "manaslu summit trek, manaslu circuit, trekking manaslu",
     entityTags: "Manaslu, Expedition, Summit, Circuit",
@@ -810,6 +832,8 @@ If the appeal is standing at the base of an 8,000m peak, walking through remote 
       "When to trek the Manaslu Circuit: autumn vs spring conditions, why Larkya La can be closed in winter, and what the monsoon actually does to the Budhi Gandaki trail.",
     excerpt:
       "Two good seasons, one workable-but-hazy season, and two you should generally avoid. Here's what actually changes on the trail month to month.",
+    bannerImage: "https://images.unsplash.com/photo-1522199755839-a2bacb67c546?auto=format&fit=crop&w=1200&q=72",
+    bannerAlt: "Clear autumn skies over the Manaslu range",
     primaryKeywords: "manaslu circuit trek best time to year",
     secondaryKeywords: "manaslu circuit trek, best season for manaslu, when to trek manaslu",
     entityTags: "Manaslu, Season, Weather, Larkya La",
@@ -880,6 +904,8 @@ Autumn's popularity means booking further ahead matters more — teahouse rooms 
       "Teahouse rooms, dal bhat every night, and what changes above Samagaun — an honest look at where you'll sleep and eat on the Manaslu Circuit trek.",
     excerpt:
       "Simpler than the Khumbu, warmer than you'd expect, and dal bhat is doing more work for your legs than any energy bar you packed. Here's what's actually on offer.",
+    bannerImage: "https://images.unsplash.com/photo-1571401835393-8c5f35328320?auto=format&fit=crop&w=1200&q=72",
+    bannerAlt: "A warm teahouse dining room on a Himalayan trekking route",
     primaryKeywords: "manaslu circuit trek accommodation and food",
     secondaryKeywords: "manaslu teahouses, manaslu circuit trek food, manaslu circuit trek",
     entityTags: "Manaslu, Accommodation, Teahouse, Food",
@@ -953,6 +979,8 @@ Our [Manaslu Circuit Trek package](/trip/manaslu-circuit-trek) includes all teah
       "What actual Manaslu Circuit trekkers say on Reddit and review platforms, what themes come up again and again, and how to actually evaluate a trekking company.",
     excerpt:
       "The recurring themes across Reddit threads and review sites are remarkably consistent — here's what they actually agree on, and how to use that when picking a company.",
+    bannerImage: "https://images.unsplash.com/photo-1486911278844-a81c5267e227?auto=format&fit=crop&w=1200&q=72",
+    bannerAlt: "A trekking group celebrating on the trail",
     primaryKeywords: "manaslu circuit trek reddit, manaslu circuit trek best company",
     secondaryKeywords: "manaslu circuit trek reviews, manaslu circuit trek",
     entityTags: "Manaslu, Reviews, Reddit",
@@ -1024,6 +1052,8 @@ Our own approach to this: real reviews from trekkers, shown with attribution and
       "Manaslu Circuit and Annapurna Circuit compared directly: cost, difficulty, crowds, permits and scenery — which one actually fits what you're looking for.",
     excerpt:
       "Both circle a massive peak and cross a high pass. Past that, they're different trips for different trekkers — here's the honest comparison.",
+    bannerImage: "https://images.unsplash.com/photo-1454391304352-2bf4678b1a7a?auto=format&fit=crop&w=1200&q=72",
+    bannerAlt: "Prayer flags strung across a high Himalayan pass",
     primaryKeywords: "manaslu circuit trek vs annapurna circuit trek",
     secondaryKeywords: "annapurna circuit trek map, annapurna circuit trek package, trekking manaslu, manaslu circuit trek",
     entityTags: "Manaslu, Annapurna, Comparison, Larkya La, Thorong La",
@@ -1109,6 +1139,8 @@ Neither is the "easier" choice in every dimension — they trade difficulty and 
       "What the Annapurna Circuit trek costs: exact permit fees, group discount pricing, what a booking includes, and what Reddit says about real trip costs.",
     excerpt:
       "One of Nepal's best-value treks, and one of the most inconsistently quoted. Here's the actual cost breakdown, permit by permit.",
+    bannerImage: "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=1200&q=72",
+    bannerAlt: "Trekkers on the Annapurna Circuit trail",
     primaryKeywords: "annapurna circuit trek cost",
     secondaryKeywords:
       "annapurna circuit trek package, annapurna circuit trek booking, annapurna circuit trek cost reddit, annapurna circuit trek difficulty level, what is annapurna circuit trek, annapurna circuit trek permit cost, annapurna circuit trek map",

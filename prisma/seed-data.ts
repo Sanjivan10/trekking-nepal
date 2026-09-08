@@ -85,7 +85,7 @@ Late September to late November is the most reliable window: stable weather, cle
     name: "Langtang",
     headline: "Nepal's closest Himalayan valley to Kathmandu — sacred lakes, Tamang villages and a remarkable recovery.",
     heroImage:
-      "https://images.unsplash.com/photo-1522527365850-e3c6f6c30d1e?auto=format&fit=crop&w=2000&q=70",
+      "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=2000&q=70",
     heroAlt: "Alpine lake below snow peaks in Nepal's Langtang region",
     metaTitle: "Langtang & Gosaikunda Trekking — Routes, Permits & Costs",
     metaDescription:
@@ -130,7 +130,7 @@ export const itineraries = [
     bannerAlt: "Trekkers approaching Everest Base Camp beneath the Khumbu icefall",
     gallery: [
       "https://images.unsplash.com/photo-1486911278844-a81c5267e227?auto=format&fit=crop&w=1200&q=70",
-      "https://images.unsplash.com/photo-1522527365850-e3c6f6c30d1e?auto=format&fit=crop&w=1200&q=70",
+      "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1200&q=70",
       "https://images.unsplash.com/photo-1454391304352-2bf4678b1a7a?auto=format&fit=crop&w=1200&q=70",
     ].join("\n"),
     durationDays: 14,
@@ -251,7 +251,7 @@ If you can walk for six hours on consecutive days and you are willing to go slow
     bannerAlt: "Manaslu seen across the Nubri valley from the village of Samagaun",
     gallery: [
       "https://images.unsplash.com/photo-1571401835393-8c5f35328320?auto=format&fit=crop&w=1200&q=70",
-      "https://images.unsplash.com/photo-1522527365850-e3c6f6c30d1e?auto=format&fit=crop&w=1200&q=70",
+      "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1200&q=70",
     ].join("\n"),
     durationDays: 14,
     durationNights: 13,
@@ -362,7 +362,7 @@ The pass day is the crux. You leave Dharamsala around 4 am, climb steadily for f
       "gosaikunda lake trek, gosaikunda trek itinerary, langtang gosaikunda, laurebina la, gosaikunda trek cost",
     entityTags: "Gosaikunda, Langtang, Laurebina La, Dhunche, Helambu, Permits",
     heroImage:
-      "https://images.unsplash.com/photo-1522527365850-e3c6f6c30d1e?auto=format&fit=crop&w=2400&q=72",
+      "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=2400&q=72",
     bannerImage:
       "https://images.unsplash.com/photo-1454391304352-2bf4678b1a7a?auto=format&fit=crop&w=1200&q=72",
     bannerAlt: "The sacred Gosaikunda lake beneath snow peaks in Langtang National Park",

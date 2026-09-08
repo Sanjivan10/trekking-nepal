@@ -35,6 +35,8 @@ async function main() {
     const data = {
       title: post.title,
       excerpt: post.excerpt,
+      bannerImage: post.bannerImage,
+      bannerAlt: post.bannerAlt,
       content: post.content,
       metaTitle: post.metaTitle,
       metaDescription: post.metaDescription,
