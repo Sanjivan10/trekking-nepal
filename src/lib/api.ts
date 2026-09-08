@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { revalidatePath } from "next/cache";
 import { getSession } from "./auth";
 import { sameOrigin } from "./security";
+import { submitToIndexNow } from "./indexnow";
 import { prisma } from "./prisma";
 
 export function json(data: unknown, status = 200) {
@@ -33,7 +34,11 @@ export async function withAdmin<T>(handler: () => Promise<T>, request?: Request)
   }
 }
 
-/** Purges the caches touched by a content change. */
+/**
+ * Purges the caches touched by a content change, and pings IndexNow for the
+ * specific pages so Bing/Yandex can pick them up fast. Fire-and-forget —
+ * indexing is best-effort and must never slow down or fail a save.
+ */
 export function revalidateContent(paths: string[] = []) {
   const base = ["/", "/nepal-trekking-routes", "/blog", "/nepal-trekking-routes", "/sitemap.xml", "/llms.txt"];
   for (const path of [...base, ...paths]) {
