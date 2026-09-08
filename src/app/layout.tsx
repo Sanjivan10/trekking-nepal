@@ -72,6 +72,10 @@ export const metadata: Metadata = {
     },
   },
   category: "travel",
+  verification: {
+    // Renders <meta name="google-site-verification" content="…">
+    google: process.env.GOOGLE_SITE_VERIFICATION || "x8JmNBAcsSoZndmX5A8m5i4XGGN_IuxDXdPgw0yLtB8",
+  },
 };
 
 export const viewport: Viewport = {
