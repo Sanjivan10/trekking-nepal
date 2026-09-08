@@ -4,6 +4,7 @@ import {
   Facebook, Instagram, Youtube, Twitter,
 } from "lucide-react";
 import { MountainScene } from "./mountain-scene";
+import { ReviewBadges } from "./review-badges";
 import { mainSite } from "@/lib/mainSite";
 import type { Settings } from "@/lib/settings";
 
@@ -104,7 +105,7 @@ export function FooterView({
             </div>
             {s.ctaLabel?.trim() && (
               <A
-                href={s.ctaUrl || "/itinerary"}
+                href={s.ctaUrl || "/nepal-trekking-routes"}
                 className="inline-flex shrink-0 items-center justify-center gap-1.5 rounded-xl px-5 py-2.5 font-bold transition hover:opacity-90"
                 style={{ background: s.footerAccent, color: s.footerBg }}
               >
@@ -164,6 +165,9 @@ export function FooterView({
               </ul>
             )}
 
+            {/* Google + TripAdvisor rating badges */}
+            <ReviewBadges settings={s} tone="dark" className="mt-5" borderColor={s.footerBorder} />
+
             {socials.length > 0 && (
               <ul className="mt-5 flex gap-2">
                 {socials.map(({ href, Icon, label }) => (
@@ -213,13 +217,13 @@ export function FooterView({
                 <ul className="mt-4 space-y-2.5">
                   {data.regions.map((region) => (
                     <li key={region.slug}>
-                      <A href={`/region/${region.slug}`} className="transition hover:opacity-75">
+                      <A href={`/nepal-trekking-routes/${region.slug}-region`} className="transition hover:opacity-75">
                         {region.name}
                       </A>
                     </li>
                   ))}
                   <li>
-                    <A href="/itinerary" className="transition hover:opacity-75">All itineraries</A>
+                    <A href="/nepal-trekking-routes" className="transition hover:opacity-75">All itineraries</A>
                   </li>
                 </ul>
               </div>
@@ -231,7 +235,7 @@ export function FooterView({
                 <ul className="mt-4 space-y-2.5">
                   {data.trips.map((trip) => (
                     <li key={trip.slug}>
-                      <A href={`/itinerary/${trip.slug}`} className="transition hover:opacity-75">
+                      <A href={`/trip/${trip.slug}`} className="transition hover:opacity-75">
                         {trip.title}
                       </A>
                     </li>
@@ -245,7 +249,7 @@ export function FooterView({
                 </h2>
                 <ul className="mt-4 space-y-2.5">
                   <li><A href="/blog" className="transition hover:opacity-75">Blog</A></li>
-                  <li><A href="/region" className="transition hover:opacity-75">Regions</A></li>
+                  <li><A href="/nepal-trekking-routes" className="transition hover:opacity-75">Regions</A></li>
                   <li><A href="/sitemap.xml" className="transition hover:opacity-75">Sitemap</A></li>
                   <li><A href="/llms.txt" className="transition hover:opacity-75">llms.txt</A></li>
                 </ul>

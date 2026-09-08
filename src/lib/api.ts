@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { revalidatePath } from "next/cache";
 import { getSession } from "./auth";
+import { sameOrigin } from "./security";
 import { prisma } from "./prisma";
 
 export function json(data: unknown, status = 200) {
@@ -11,8 +12,12 @@ export function fail(message: string, status = 400) {
   return NextResponse.json({ error: message }, { status });
 }
 
-/** Wraps an admin handler with session + error handling. */
-export async function withAdmin<T>(handler: () => Promise<T>) {
+/**
+ * Wraps an admin handler with session, CSRF origin check and error handling.
+ * Pass the Request to enable the origin check on state-changing verbs.
+ */
+export async function withAdmin<T>(handler: () => Promise<T>, request?: Request) {
+  if (request && !sameOrigin(request)) return fail("Bad origin.", 403);
   const user = await getSession();
   if (!user) return fail("Unauthorized", 401);
   try {
@@ -30,7 +35,7 @@ export async function withAdmin<T>(handler: () => Promise<T>) {
 
 /** Purges the caches touched by a content change. */
 export function revalidateContent(paths: string[] = []) {
-  const base = ["/", "/itinerary", "/blog", "/region", "/sitemap.xml", "/llms.txt"];
+  const base = ["/", "/nepal-trekking-routes", "/blog", "/nepal-trekking-routes", "/sitemap.xml", "/llms.txt"];
   for (const path of [...base, ...paths]) {
     try {
       revalidatePath(path);
@@ -51,7 +56,7 @@ export async function regionPaths(...ids: Array<string | null | undefined>) {
     where: { id: { in: unique } },
     select: { slug: true },
   });
-  return regions.map((region) => `/region/${region.slug}`);
+  return regions.map((region) => `/nepal-trekking-routes/${region.slug}-region`);
 }
 
 /* ------------------------------ coercion ------------------------------ */

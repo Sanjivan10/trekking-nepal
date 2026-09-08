@@ -136,11 +136,16 @@ export function siteGraph(overrides: OrgOverrides = {}): Json {
 
 export type Crumb = { name: string; href: string };
 
+/**
+ * The visible <Breadcrumbs /> always renders Home first, and Google requires
+ * the markup to match what is on the page — so prepend it here too.
+ */
 export function breadcrumbSchema(crumbs: Crumb[]): Json {
+  const trail = [{ name: "Home", href: "/" }, ...crumbs];
   return {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
-    itemListElement: crumbs.map((crumb, index) => ({
+    itemListElement: trail.map((crumb, index) => ({
       "@type": "ListItem",
       position: index + 1,
       name: crumb.name,
@@ -273,6 +278,8 @@ export type TripSchemaInput = {
   keywords?: string | null;
   entityTags?: string | null;
   priceFrom?: number | null;
+  priceRegular?: number | null;
+  tiers?: Array<{ label: string; price: number }>;
   priceTo?: number | null;
   currency?: string | null;
   ratingValue?: number | null;
@@ -299,7 +306,7 @@ export type TripSchemaInput = {
 };
 
 export function touristTripSchema(trip: TripSchemaInput): Json {
-  const url = absoluteUrl(`/itinerary/${trip.slug}`);
+  const url = absoluteUrl(`/trip/${trip.slug}`);
   const images = [
     trip.heroImage,
     trip.bannerImage,
@@ -369,6 +376,20 @@ export function touristTripSchema(trip: TripSchemaInput): Json {
     }),
   );
 
+  // Each group tier is its own Offer so search engines can show the real
+  // price range rather than a single number.
+  const tierOffers = (trip.tiers || []).map((tier) =>
+    prune({
+      "@type": "Offer",
+      url,
+      name: tier.label,
+      price: tier.price,
+      priceCurrency: trip.currency || "USD",
+      availability: "https://schema.org/InStock",
+      seller: { "@id": ORGANIZATION_ID },
+    }),
+  );
+
   const offers = trip.priceFrom
     ? prune({
         "@type": "Offer",
@@ -404,7 +425,7 @@ export function touristTripSchema(trip: TripSchemaInput): Json {
     inLanguage: "en",
     tourBookingPage: url,
     provider: { "@id": ORGANIZATION_ID },
-    offers,
+    offers: tierOffers.length ? tierOffers : offers,
     aggregateRating,
     review: reviews.length ? reviews : undefined,
     itinerary,
@@ -497,7 +518,7 @@ export function regionSchema(region: {
   heroImage?: string | null;
   entityTags?: string | null;
 }): Json {
-  const url = absoluteUrl(`/region/${region.slug}`);
+  const url = absoluteUrl(`/nepal-trekking-routes/${region.slug}-region`);
   return prune({
     "@context": "https://schema.org",
     "@type": "Place",

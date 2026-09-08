@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <rect width="64" height="64" rx="14" fill="#06955f"/>
+  <!-- back peak -->
+  <path d="M8 48 L23 22 L34 40 L28 40 L23 33 L15 48 Z" fill="#ffffff" opacity="0.45"/>
+  <!-- main peak with snow cap -->
+  <path d="M18 48 L38 14 L58 48 Z" fill="#ffffff"/>
+  <path d="M38 14 L46 27 L42 25 L38 29 L33 25 L30 27 Z" fill="#06955f" opacity="0.22"/>
+  <!-- trekker on the ridge -->
+  <circle cx="27" cy="40.5" r="1.9" fill="#0d1019"/>
+  <path d="M27 42.4 L27.5 46" stroke="#0d1019" stroke-width="2" stroke-linecap="round"/>
+  <path d="M27.5 46 L25.6 49" stroke="#0d1019" stroke-width="1.7" stroke-linecap="round"/>
+  <path d="M27.5 46 L29.6 49" stroke="#0d1019" stroke-width="1.7" stroke-linecap="round"/>
+  <path d="M27.2 43.4 L29.8 45.2" stroke="#0d1019" stroke-width="1.5" stroke-linecap="round"/>
+  <path d="M29.8 45.2 L30.6 49.2" stroke="#0d1019" stroke-width="1" stroke-linecap="round"/>
+</svg>

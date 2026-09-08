@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, Plus_Jakarta_Sans } from "next/font/google";
+import { Inter, Plus_Jakarta_Sans, Instrument_Serif } from "next/font/google";
 import "./globals.css";
 import { SiteHeader } from "@/components/site/site-header";
 import { SiteFooter } from "@/components/site/site-footer";
@@ -22,6 +22,16 @@ const display = Plus_Jakarta_Sans({
   weight: ["600", "700", "800"],
   display: "swap",
   variable: "--font-display",
+  preload: true,
+});
+
+// Italic serif used for the accent word in hero headlines.
+const serif = Instrument_Serif({
+  subsets: ["latin"],
+  weight: "400",
+  style: ["normal", "italic"],
+  display: "swap",
+  variable: "--font-serif",
   preload: true,
 });
 
@@ -93,7 +103,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   ]);
 
   return (
-    <html lang="en" className={`${inter.variable} ${display.variable}`}>
+    <html lang="en" className={`${inter.variable} ${display.variable} ${serif.variable}`}>
       <body>
         <a href="#main" className="skip-link">
           Skip to content

@@ -94,7 +94,7 @@ export async function GET() {
     for (const region of regions) {
       const summary =
         region.metaDescription || region.headline || truncate(stripMarkdown(region.description), 180);
-      push(`- [${region.name}](${absoluteUrl(`/region/${region.slug}`)}): ${summary}`);
+      push(`- [${region.name}](${absoluteUrl(`/nepal-trekking-routes/${region.slug}-region`)}): ${summary}`);
     }
     push();
   }
@@ -110,7 +110,7 @@ export async function GET() {
   for (const trip of itineraries) {
     push(`### ${trip.title}`);
     push();
-    push(`- **URL**: ${absoluteUrl(`/itinerary/${trip.slug}`)}`);
+    push(`- **URL**: ${absoluteUrl(`/trip/${trip.slug}`)}`);
     push(`- **Book**: ${mainSiteUrl(trip.mainSiteUrl?.trim() || `/${trip.slug}`)}`);
     if (trip.region) push(`- **Region**: ${trip.region.name}`);
     if (trip.durationDays)

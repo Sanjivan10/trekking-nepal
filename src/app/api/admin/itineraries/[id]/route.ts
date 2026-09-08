@@ -5,7 +5,7 @@ import { recomputeRating } from "@/lib/content";
 
 type Params = { params: Promise<{ id: string }> };
 
-export async function GET(_request: Request, { params }: Params) {
+export async function GET(request: Request, { params }: Params) {
   const { id } = await params;
   return withAdmin(async () =>
     prisma.itinerary.findUnique({
@@ -55,19 +55,19 @@ export async function PUT(request: Request, { params }: Params) {
 
     await recomputeRating(trip.id);
     revalidateContent([
-      `/itinerary/${trip.slug}`,
-      `/itinerary/${existing.slug}`,
+      `/trip/${trip.slug}`,
+      `/trip/${existing.slug}`,
       ...(await regionPaths(trip.regionId, existing.regionId)),
     ]);
     return trip;
-  });
+  }, request);
 }
 
-export async function DELETE(_request: Request, { params }: Params) {
+export async function DELETE(request: Request, { params }: Params) {
   const { id } = await params;
   return withAdmin(async () => {
     const trip = await prisma.itinerary.delete({ where: { id } });
-    revalidateContent([`/itinerary/${trip.slug}`, ...(await regionPaths(trip.regionId))]);
+    revalidateContent([`/trip/${trip.slug}`, ...(await regionPaths(trip.regionId))]);
     return { ok: true };
-  });
+  }, request);
 }

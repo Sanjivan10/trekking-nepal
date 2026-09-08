@@ -1,5 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { withAdmin, revalidateContent, regionPaths, fail } from "@/lib/api";
+import { audit } from "@/lib/security";
+import { getSession } from "@/lib/auth";
 import { blogPayload, faqRows, publishStamp } from "@/lib/payload";
 
 export async function GET() {
@@ -29,6 +31,7 @@ export async function POST(request: Request) {
       },
     });
     revalidateContent([`/blog/${post.slug}`, ...(await regionPaths(post.regionId))]);
+    await audit({ actor: (await getSession()) || "admin", action: "create", entity: "blog", entityId: post.id, summary: post.title, request });
     return post;
-  });
+  }, request);
 }

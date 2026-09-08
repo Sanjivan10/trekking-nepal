@@ -91,7 +91,7 @@ export function ReviewModeration({ initial }: { initial: ReviewRow[] }) {
                   </div>
                   <p className="mt-1 text-xs text-ink-500">
                     <Link
-                      href={`/itinerary/${review.itinerary.slug}`}
+                      href={`/trip/${review.itinerary.slug}`}
                       target="_blank"
                       className="font-medium text-brand-700 hover:underline"
                     >

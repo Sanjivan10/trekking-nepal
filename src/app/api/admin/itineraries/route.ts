@@ -1,5 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { withAdmin, revalidateContent, regionPaths, fail } from "@/lib/api";
+import { audit } from "@/lib/security";
+import { getSession } from "@/lib/auth";
 import { itineraryPayload, faqRows, dayRows, reviewRows, publishStamp } from "@/lib/payload";
 import { recomputeRating } from "@/lib/content";
 
@@ -34,7 +36,8 @@ export async function POST(request: Request) {
       },
     });
     await recomputeRating(trip.id);
-    revalidateContent([`/itinerary/${trip.slug}`, ...(await regionPaths(trip.regionId))]);
+    revalidateContent([`/trip/${trip.slug}`, ...(await regionPaths(trip.regionId))]);
+    await audit({ actor: (await getSession()) || "admin", action: "create", entity: "itinerary", entityId: trip.id, summary: trip.title, request });
     return trip;
-  });
+  }, request);
 }

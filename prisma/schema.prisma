@@ -136,9 +136,13 @@ model Itinerary {
   transportation String @default("")
 
   // Pricing
-  priceFrom Float  @default(0)
-  priceTo   Float  @default(0)
-  currency  String @default("USD")
+  priceFrom    Float  @default(0) // headline "from" price
+  priceRegular Float  @default(0) // struck-through was-price
+  priceTo      Float  @default(0)
+  currency     String @default("USD")
+
+  /// Explicit homepage/listing order. Lower wins, so 1 = top spotlight.
+  priority Int @default(100)
 
   // List blocks (one item per line)
   highlights String @default("")
@@ -171,9 +175,25 @@ model Itinerary {
   days    ItineraryDay[]
   faqs    Faq[]
   reviews Review[]
+  tiers   PriceTier[]
 
   @@index([status, publishedAt])
   @@index([regionId])
+  @@index([priority])
+}
+
+/// Group-discount pricing row, e.g. "2 - 5 pax" -> 1299.
+model PriceTier {
+  id          String @id @default(cuid())
+  itineraryId String
+  label       String // "1 pax", "2 - 5 pax"
+  price       Float
+  note        String @default("")
+  position    Int    @default(0)
+
+  itinerary Itinerary @relation(fields: [itineraryId], references: [id], onDelete: Cascade)
+
+  @@index([itineraryId, position])
 }
 
 model ItineraryDay {
@@ -304,6 +324,34 @@ model SiteSettings {
   trekkerColor    String  @default("#38d391")
   sceneHeight     Int     @default(120)
 
+  // ---- Homepage hero (editable in /admin/hero) ----
+  heroEyebrow     String  @default("")
+  heroTitle       String  @default("")
+  heroAccent      String  @default("") // italic serif word
+  heroTitleAfter  String  @default("")
+  heroSubtitle    String  @default("")
+  heroImage       String  @default("")
+  heroImageAlt    String  @default("")
+  heroWordmark    String  @default("") // oversized word bleeding off the hero
+  heroOverlay     Int     @default(55)   // 0-90 darkness %
+  heroHeight      Int     @default(88)   // vh
+  heroPrimaryLabel String @default("")
+  heroPrimaryUrl   String @default("")
+  heroSecondaryLabel String @default("")
+  heroSecondaryUrl   String @default("")
+  heroShowSearch  Boolean @default(true)
+  heroShowStats   Boolean @default(true)
+  heroStats       String  @default("") // "4.9|Google rating" per line
+
+  // ---- Review platform badges ----
+  showReviewBadges  Boolean @default(true)
+  googleReviewUrl   String  @default("")
+  googleRating      String  @default("")
+  googleCount       String  @default("")
+  tripadvisorUrl    String  @default("")
+  tripadvisorRating String  @default("")
+  tripadvisorCount  String  @default("")
+
   // ---- Bottom bar ----
   copyrightText String  @default("")
   showCredit    Boolean @default(true)
@@ -338,4 +386,57 @@ model FooterLink {
   column FooterColumn @relation(fields: [columnId], references: [id], onDelete: Cascade)
 
   @@index([columnId, position])
+}
+
+/// Third-party testimonial (Google / TripAdvisor). Kept separate from the
+/// first-party `Review` model on purpose: these are NOT fed into
+/// AggregateRating JSON-LD, because Google's review-snippet policy forbids
+/// marking up reviews collected on another platform as your own.
+model Testimonial {
+  id         String  @id @default(cuid())
+  source     String  @default("google") // google | tripadvisor | direct
+  authorName String
+  authorMeta String  @default("") // "Local Guide · 19 reviews"
+  rating     Int     @default(5)
+  dateLabel  String  @default("") // "4 months ago"
+  body       String
+  ownerReply String  @default("")
+  sourceUrl  String  @default("")
+  tripName   String  @default("") // "Manaslu Circuit Trek"
+  featured   Boolean @default(false)
+  position   Int     @default(0)
+  published  Boolean @default(true)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([published, position])
+  @@index([source])
+}
+
+/// Persisted login throttle. In-memory counters reset on every serverless
+/// cold start, which makes them close to useless on Vercel — this survives.
+model LoginAttempt {
+  id          String   @id @default(cuid())
+  identifier  String   @unique // IP address
+  count       Int      @default(0)
+  lockedUntil DateTime?
+  lastAttempt DateTime @default(now())
+
+  @@index([lockedUntil])
+}
+
+/// Append-only trail of privileged actions.
+model AuditLog {
+  id        String   @id @default(cuid())
+  actor     String
+  action    String   // create | update | delete | login | login_failed | logout
+  entity    String   // blog | itinerary | region | settings | review | auth
+  entityId  String   @default("")
+  summary   String   @default("")
+  ip        String   @default("")
+  userAgent String   @default("")
+  createdAt DateTime @default(now())
+
+  @@index([createdAt])
+  @@index([entity, entityId])
 }

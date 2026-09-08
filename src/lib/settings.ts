@@ -48,6 +48,30 @@ export type Settings = {
   snowColor: string;
   trekkerColor: string;
   sceneHeight: number;
+  showReviewBadges: boolean;
+  googleReviewUrl: string;
+  googleRating: string;
+  googleCount: string;
+  tripadvisorUrl: string;
+  tripadvisorRating: string;
+  tripadvisorCount: string;
+  heroEyebrow: string;
+  heroTitle: string;
+  heroAccent: string;
+  heroTitleAfter: string;
+  heroSubtitle: string;
+  heroImage: string;
+  heroImageAlt: string;
+  heroWordmark: string;
+  heroOverlay: number;
+  heroHeight: number;
+  heroPrimaryLabel: string;
+  heroPrimaryUrl: string;
+  heroSecondaryLabel: string;
+  heroSecondaryUrl: string;
+  heroShowSearch: boolean;
+  heroShowStats: boolean;
+  heroStats: string;
   copyrightText: string;
   showCredit: boolean;
   columns: FooterColumnData[];
@@ -70,7 +94,7 @@ export const defaultSettings: Settings = {
   ctaTitle: "Ready to walk the Himalaya?",
   ctaText: "Browse every guided itinerary, or talk to a guide who has walked the route.",
   ctaLabel: "Browse all treks",
-  ctaUrl: "/itinerary",
+  ctaUrl: "/nepal-trekking-routes",
   footerBg: "#0d1019",
   footerBgTo: "#12172a",
   footerText: "#aeb7c8",
@@ -91,6 +115,30 @@ export const defaultSettings: Settings = {
   snowColor: "#e8eef7",
   trekkerColor: "#38d391",
   sceneHeight: 120,
+  showReviewBadges: true,
+  googleReviewUrl: "",
+  googleRating: "",
+  googleCount: "",
+  tripadvisorUrl: "",
+  tripadvisorRating: "",
+  tripadvisorCount: "",
+  heroEyebrow: "Licensed Nepali operator · 4,800+ trekkers guided",
+  heroTitle: "Real Himalayan treks.",
+  heroAccent: "Zero corporate BS.",
+  heroTitleAfter: "",
+  heroSubtitle: "Exact prices, exact itineraries, and guides who have actually walked the trail. Everest Base Camp, Manaslu Circuit and Annapurna — no guesswork, no hidden extras.",
+  heroImage: "",
+  heroImageAlt: "",
+  heroWordmark: "HIMALAYA",
+  heroOverlay: 55,
+  heroHeight: 88,
+  heroPrimaryLabel: "See all treks & exact prices",
+  heroPrimaryUrl: "/nepal-trekking-routes",
+  heroSecondaryLabel: "",
+  heroSecondaryUrl: "",
+  heroShowSearch: true,
+  heroShowStats: true,
+  heroStats: ["4.9|Google rating", "5.0|TripAdvisor", "1-12|Group size", "2000|Guiding since"].join("\n"),
   copyrightText: "",
   showCredit: true,
   columns: [],

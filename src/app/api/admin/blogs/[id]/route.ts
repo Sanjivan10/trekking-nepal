@@ -4,7 +4,7 @@ import { blogPayload, faqRows, publishStamp } from "@/lib/payload";
 
 type Params = { params: Promise<{ id: string }> };
 
-export async function GET(_request: Request, { params }: Params) {
+export async function GET(request: Request, { params }: Params) {
   const { id } = await params;
   return withAdmin(async () =>
     prisma.blog.findUnique({
@@ -46,14 +46,14 @@ export async function PUT(request: Request, { params }: Params) {
       ...(await regionPaths(post.regionId, existing.regionId)),
     ]);
     return post;
-  });
+  }, request);
 }
 
-export async function DELETE(_request: Request, { params }: Params) {
+export async function DELETE(request: Request, { params }: Params) {
   const { id } = await params;
   return withAdmin(async () => {
     const post = await prisma.blog.delete({ where: { id } });
     revalidateContent([`/blog/${post.slug}`, ...(await regionPaths(post.regionId))]);
     return { ok: true };
-  });
+  }, request);
 }

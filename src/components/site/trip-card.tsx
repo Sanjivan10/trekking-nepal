@@ -86,7 +86,7 @@ export function TripCard({
 
         <h3 className="text-[1.0625rem] font-bold leading-snug text-ink-900">
           {/* Stretched link keeps the whole card clickable with one <a>. */}
-          <Link href={`/itinerary/${trip.slug}`} className="after:absolute after:inset-0">
+          <Link href={`/trip/${trip.slug}`} className="after:absolute after:inset-0">
             {trip.title}
           </Link>
         </h3>

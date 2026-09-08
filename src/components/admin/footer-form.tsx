@@ -168,7 +168,7 @@ export function FooterForm({
                 <Field label="Title"><Input value={s.ctaTitle} onChange={(e) => set("ctaTitle", e.target.value)} /></Field>
                 <Field label="Text"><Textarea rows={2} value={s.ctaText} onChange={(e) => set("ctaText", e.target.value)} /></Field>
                 <Field label="Button label"><Input value={s.ctaLabel} onChange={(e) => set("ctaLabel", e.target.value)} /></Field>
-                <Field label="Button link"><Input value={s.ctaUrl} onChange={(e) => set("ctaUrl", e.target.value)} placeholder="/itinerary" /></Field>
+                <Field label="Button link"><Input value={s.ctaUrl} onChange={(e) => set("ctaUrl", e.target.value)} placeholder="/nepal-trekking-routes" /></Field>
               </Panel>
 
               <Panel title="Bottom bar">

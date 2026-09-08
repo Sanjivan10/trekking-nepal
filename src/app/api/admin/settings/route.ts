@@ -54,6 +54,32 @@ export async function PUT(request: Request) {
       snowColor: str(body.snowColor) || "#e8eef7",
       trekkerColor: str(body.trekkerColor) || "#38d391",
       sceneHeight: Math.min(260, Math.max(0, int(body.sceneHeight, 120))),
+      // Hero
+      heroEyebrow: str(body.heroEyebrow),
+      heroTitle: str(body.heroTitle),
+      heroAccent: str(body.heroAccent),
+      heroTitleAfter: str(body.heroTitleAfter),
+      heroSubtitle: str(body.heroSubtitle),
+      heroImage: str(body.heroImage),
+      heroImageAlt: str(body.heroImageAlt),
+      heroWordmark: str(body.heroWordmark),
+      heroOverlay: Math.min(90, Math.max(0, int(body.heroOverlay, 55))),
+      heroHeight: Math.min(100, Math.max(50, int(body.heroHeight, 88))),
+      heroPrimaryLabel: str(body.heroPrimaryLabel),
+      heroPrimaryUrl: str(body.heroPrimaryUrl),
+      heroSecondaryLabel: str(body.heroSecondaryLabel),
+      heroSecondaryUrl: str(body.heroSecondaryUrl),
+      heroShowSearch: bool(body.heroShowSearch, true),
+      heroShowStats: bool(body.heroShowStats, true),
+      heroStats: str(body.heroStats),
+      // Review badges
+      showReviewBadges: bool(body.showReviewBadges, true),
+      googleReviewUrl: str(body.googleReviewUrl),
+      googleRating: str(body.googleRating),
+      googleCount: str(body.googleCount),
+      tripadvisorUrl: str(body.tripadvisorUrl),
+      tripadvisorRating: str(body.tripadvisorRating),
+      tripadvisorCount: str(body.tripadvisorCount),
       copyrightText: str(body.copyrightText),
       showCredit: bool(body.showCredit, true),
     };
@@ -93,7 +119,7 @@ export async function PUT(request: Request) {
     });
 
     // The footer is on every page, so refresh the whole site.
-    revalidateContent(["/blog", "/itinerary", "/region"]);
+    revalidateContent(["/blog", "/nepal-trekking-routes", "/nepal-trekking-routes"]);
     return saved;
-  });
+  }, request);
 }

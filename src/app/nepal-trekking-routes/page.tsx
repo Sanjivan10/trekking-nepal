@@ -19,8 +19,8 @@ const DESCRIPTION =
 export const metadata: Metadata = {
   title: TITLE,
   description: DESCRIPTION,
-  alternates: { canonical: "/itinerary" },
-  openGraph: { title: TITLE, description: DESCRIPTION, url: "/itinerary", type: "website" },
+  alternates: { canonical: "/nepal-trekking-routes" },
+  openGraph: { title: TITLE, description: DESCRIPTION, url: "/nepal-trekking-routes", type: "website" },
 };
 
 type SearchParams = Promise<{ region?: string; duration?: string; difficulty?: string }>;
@@ -60,13 +60,13 @@ export default async function ItineraryIndexPage({
   ]);
 
   const hasFilters = Boolean(params.region || params.duration || params.difficulty);
-  const crumbs = [{ name: "Treks", href: "/itinerary" }];
+  const crumbs = [{ name: "Nepal Trekking Routes", href: "/nepal-trekking-routes" }];
 
   const buildHref = (patch: Record<string, string | undefined>) => {
     const next = new URLSearchParams();
     const merged = { ...params, ...patch };
     for (const [key, value] of Object.entries(merged)) if (value) next.set(key, value);
-    return `/itinerary${next.toString() ? `?${next}` : ""}`;
+    return `/nepal-trekking-routes${next.toString() ? `?${next}` : ""}`;
   };
 
   return (
@@ -77,8 +77,8 @@ export default async function ItineraryIndexPage({
         data={collectionPageSchema({
           name: TITLE,
           description: DESCRIPTION,
-          url: "/itinerary",
-          items: trips.map((trip) => ({ name: trip.title, url: `/itinerary/${trip.slug}` })),
+          url: "/nepal-trekking-routes",
+          items: trips.map((trip) => ({ name: trip.title, url: `/trip/${trip.slug}` })),
         })}
       />
 
@@ -87,8 +87,8 @@ export default async function ItineraryIndexPage({
           <Breadcrumbs items={crumbs} className="mb-6 text-ink-600" />
           <SectionHeading
             as="h1"
-            eyebrow="Trekking itineraries"
-            title="Every trek we guide in Nepal"
+            eyebrow="Destinations"
+            title="Nepal Trekking Routes"
             description={DESCRIPTION}
           />
         </div>
@@ -149,7 +149,7 @@ export default async function ItineraryIndexPage({
           {hasFilters && (
             <>
               {" · "}
-              <Link href="/itinerary" className="font-semibold text-brand-700 hover:underline">
+              <Link href="/nepal-trekking-routes" className="font-semibold text-brand-700 hover:underline">
                 Clear filters
               </Link>
             </>
@@ -166,7 +166,7 @@ export default async function ItineraryIndexPage({
           <div className="rounded-2xl border border-dashed border-ink-300 p-12 text-center">
             <p className="text-sm text-ink-600">
               No treks match these filters.{" "}
-              <Link href="/itinerary" className="font-semibold text-brand-700 hover:underline">
+              <Link href="/nepal-trekking-routes" className="font-semibold text-brand-700 hover:underline">
                 Show all itineraries
               </Link>
             </p>

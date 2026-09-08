@@ -1,5 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { withAdmin, revalidateContent, fail } from "@/lib/api";
+import { audit } from "@/lib/security";
+import { getSession } from "@/lib/auth";
 import { regionPayload, faqRows } from "@/lib/payload";
 
 export async function GET() {
@@ -21,7 +23,8 @@ export async function POST(request: Request) {
         faqs: { create: faqRows(body).map((faq, i) => ({ ...faq, position: i })) },
       },
     });
-    revalidateContent([`/region/${region.slug}`]);
+    revalidateContent([`/nepal-trekking-routes/${region.slug}-region`]);
+    await audit({ actor: (await getSession()) || "admin", action: "create", entity: "region", entityId: region.id, summary: region.name, request });
     return region;
-  });
+  }, request);
 }

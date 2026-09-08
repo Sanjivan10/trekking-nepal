@@ -18,5 +18,5 @@ export async function POST(request: Request) {
     const rule = await prisma.backlinkTarget.create({ data });
     revalidateContent();
     return rule;
-  });
+  }, request);
 }

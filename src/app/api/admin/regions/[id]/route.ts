@@ -4,7 +4,7 @@ import { regionPayload, faqRows } from "@/lib/payload";
 
 type Params = { params: Promise<{ id: string }> };
 
-export async function GET(_request: Request, { params }: Params) {
+export async function GET(request: Request, { params }: Params) {
   const { id } = await params;
   return withAdmin(async () =>
     prisma.region.findUnique({
@@ -30,16 +30,16 @@ export async function PUT(request: Request, { params }: Params) {
         },
       });
     }, { timeout: 20000, maxWait: 10000 });
-    revalidateContent([`/region/${region.slug}`]);
+    revalidateContent([`/nepal-trekking-routes/${region.slug}-region`]);
     return region;
-  });
+  }, request);
 }
 
-export async function DELETE(_request: Request, { params }: Params) {
+export async function DELETE(request: Request, { params }: Params) {
   const { id } = await params;
   return withAdmin(async () => {
     const region = await prisma.region.delete({ where: { id } });
-    revalidateContent([`/region/${region.slug}`]);
+    revalidateContent([`/nepal-trekking-routes/${region.slug}-region`]);
     return { ok: true };
-  });
+  }, request);
 }

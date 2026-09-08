@@ -31,6 +31,7 @@
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system,
     "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   --font-display: var(--font-display), var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-serif), ui-serif, Georgia, 'Times New Roman', serif;
 }
 
 @layer base {
@@ -79,6 +80,39 @@
 }
 
 @layer components {
+  /* Italic serif accent word in hero headlines */
+  .accent-serif {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-weight: 400;
+    letter-spacing: -0.01em;
+  }
+
+  /* Frosted card used by the floating nav and the hero search panel */
+  .glass {
+    background: rgb(255 255 255 / 0.12);
+    backdrop-filter: blur(14px) saturate(150%);
+    -webkit-backdrop-filter: blur(14px) saturate(150%);
+    border: 1px solid rgb(255 255 255 / 0.22);
+  }
+  .glass-dark {
+    background: rgb(12 15 25 / 0.42);
+    backdrop-filter: blur(16px) saturate(150%);
+    -webkit-backdrop-filter: blur(16px) saturate(150%);
+    border: 1px solid rgb(255 255 255 / 0.16);
+  }
+
+  /* Oversized word bleeding off the bottom of the hero */
+  .hero-wordmark {
+    font-family: var(--font-display);
+    font-weight: 800;
+    line-height: 0.78;
+    letter-spacing: -0.045em;
+    color: rgb(255 255 255 / 0.92);
+    white-space: nowrap;
+    user-select: none;
+  }
+
   .container-page {
     width: 100%;
     margin-inline: auto;

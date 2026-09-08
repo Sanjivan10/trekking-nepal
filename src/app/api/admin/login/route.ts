@@ -1,38 +1,49 @@
 import { NextResponse } from "next/server";
 import { checkCredentials, createToken, SESSION_COOKIE, cookieOptions } from "@/lib/auth";
-
-/** Small in-memory rate limit — blunts credential stuffing in single-node deploys. */
-const attempts = new Map<string, { count: number; resetAt: number }>();
-const WINDOW = 10 * 60 * 1000;
-const MAX_ATTEMPTS = 8;
+import {
+  clientIp,
+  checkThrottle,
+  recordFailure,
+  clearAttempts,
+  audit,
+  sameOrigin,
+  LOCK_MINUTES,
+} from "@/lib/security";
 
 export async function POST(request: Request) {
-  const ip =
-    request.headers.get("x-forwarded-for")?.split(",")[0].trim() ||
-    request.headers.get("x-real-ip") ||
-    "local";
+  if (!sameOrigin(request)) {
+    return NextResponse.json({ error: "Bad origin." }, { status: 403 });
+  }
 
-  const now = Date.now();
-  const record = attempts.get(ip);
-  if (record && record.resetAt > now && record.count >= MAX_ATTEMPTS) {
+  const ip = clientIp(request);
+  const throttle = await checkThrottle(ip);
+  if (!throttle.allowed) {
+    const minutes = Math.max(1, Math.ceil(throttle.retryAfterSeconds / 60));
     return NextResponse.json(
-      { error: "Too many attempts. Try again in a few minutes." },
-      { status: 429 },
+      { error: `Too many failed attempts. Try again in ${minutes} minute(s).` },
+      { status: 429, headers: { "Retry-After": String(throttle.retryAfterSeconds || 60) } },
     );
   }
 
   const body = await request.json().catch(() => ({}));
-  const username = String(body.username ?? "");
-  const password = String(body.password ?? "");
+  const username = String(body.username ?? "").slice(0, 200);
+  const password = String(body.password ?? "").slice(0, 200);
 
   if (!checkCredentials(username, password)) {
-    const next = record && record.resetAt > now ? record : { count: 0, resetAt: now + WINDOW };
-    next.count += 1;
-    attempts.set(ip, next);
+    await recordFailure(ip);
+    await audit({
+      actor: username || "(blank)",
+      action: "login_failed",
+      entity: "auth",
+      summary: `Failed sign-in. ${Math.max(0, throttle.remaining - 1)} attempt(s) left before a ${LOCK_MINUTES}-minute lock.`,
+      request,
+    });
     return NextResponse.json({ error: "Incorrect email or password." }, { status: 401 });
   }
 
-  attempts.delete(ip);
+  await clearAttempts(ip);
+  await audit({ actor: username, action: "login", entity: "auth", summary: "Signed in", request });
+
   const response = NextResponse.json({ ok: true });
   response.cookies.set(SESSION_COOKIE, await createToken(username), cookieOptions);
   return response;

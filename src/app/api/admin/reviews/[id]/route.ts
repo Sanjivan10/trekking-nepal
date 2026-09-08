@@ -15,12 +15,12 @@ export async function PUT(request: Request, { params }: Params) {
       include: { itinerary: { select: { slug: true } } },
     });
     await recomputeRating(review.itineraryId);
-    revalidateContent([`/itinerary/${review.itinerary.slug}`]);
+    revalidateContent([`/trip/${review.itinerary.slug}`]);
     return review;
-  });
+  }, request);
 }
 
-export async function DELETE(_request: Request, { params }: Params) {
+export async function DELETE(request: Request, { params }: Params) {
   const { id } = await params;
   return withAdmin(async () => {
     const review = await prisma.review.delete({
@@ -28,7 +28,7 @@ export async function DELETE(_request: Request, { params }: Params) {
       include: { itinerary: { select: { slug: true } } },
     });
     await recomputeRating(review.itineraryId);
-    revalidateContent([`/itinerary/${review.itinerary.slug}`]);
+    revalidateContent([`/trip/${review.itinerary.slug}`]);
     return { ok: true };
-  });
+  }, request);
 }

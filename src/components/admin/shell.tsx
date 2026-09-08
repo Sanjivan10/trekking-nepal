@@ -11,6 +11,9 @@ import {
   Link2,
   Star,
   Palette,
+  Image as ImageIcon,
+  ShieldCheck,
+  MessageSquareQuote,
   LogOut,
   Menu,
   X,
@@ -25,7 +28,10 @@ const NAV = [
   { href: "/admin/regions", label: "Regions", icon: Map },
   { href: "/admin/backlinks", label: "Backlink engine", icon: Link2 },
   { href: "/admin/reviews", label: "Reviews", icon: Star },
+  { href: "/admin/hero", label: "Homepage hero", icon: ImageIcon },
   { href: "/admin/footer", label: "Footer & design", icon: Palette },
+  { href: "/admin/testimonials", label: "Testimonials", icon: MessageSquareQuote },
+  { href: "/admin/security", label: "Security", icon: ShieldCheck },
 ];
 
 export function AdminShell({ user, children }: { user: string; children: React.ReactNode }) {

@@ -76,7 +76,7 @@ export function RegionForm({ initial }: { initial: RegionDraft }) {
       onStatusChange={(value) => set("status", value)}
       onSave={save}
       onDelete={draft.id ? remove : undefined}
-      previewHref={draft.slug ? `/region/${draft.slug}` : undefined}
+      previewHref={draft.slug ? `/nepal-trekking-routes/${draft.slug}-region` : undefined}
       saving={saving}
       saved={saved}
       error={error}

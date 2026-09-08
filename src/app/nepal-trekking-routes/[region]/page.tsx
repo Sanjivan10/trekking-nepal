@@ -4,6 +4,8 @@ import { notFound } from "next/navigation";
 
 import { prisma } from "@/lib/prisma";
 import { getRegionBySlug, getBacklinkRules } from "@/lib/content";
+import { regionSlugFromSegment, regionSegment, regionPath, regionLabel, ROUTES, ROUTES_HUB_LABEL } from "@/lib/routes";
+import { regionBreadcrumbs } from "@/utils/generateBreadcrumbSchema";
 import { renderMarkdown, renderInline } from "@/lib/markdown";
 import { truncate, stripMarkdown, splitList } from "@/lib/utils";
 import {
@@ -31,14 +33,14 @@ export async function generateStaticParams() {
   const regions = await prisma.region
     .findMany({ where: { status: "published" }, select: { slug: true } })
     .catch(() => []);
-  return regions.map((region) => ({ slug: region.slug }));
+  return regions.map((region) => ({ region: regionSegment(region.slug) }));
 }
 
-type Props = { params: Promise<{ slug: string }> };
+type Props = { params: Promise<{ region: string }> };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { slug } = await params;
-  const region = await getRegionBySlug(slug);
+  const { region: segment } = await params;
+  const region = await getRegionBySlug(regionSlugFromSegment(segment));
   if (!region) return { title: "Region not found", robots: { index: false, follow: false } };
 
   const title = region.metaTitle || `${region.name} Trekking — Routes, Costs & Permits`;
@@ -51,12 +53,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title,
     description,
     keywords: splitList(region.keywords),
-    alternates: { canonical: `/region/${region.slug}` },
+    alternates: { canonical: regionPath(region.slug) },
     openGraph: {
       type: "website",
       title,
       description,
-      url: `/region/${region.slug}`,
+      url: `/nepal-trekking-routes/${region.slug}-region`,
       images: region.heroImage
         ? [{ url: region.heroImage, alt: region.heroAlt || region.name }]
         : undefined,
@@ -69,8 +71,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
  * every child itinerary and guide, which link back up via breadcrumbs.
  */
 export default async function RegionPage({ params }: Props) {
-  const { slug } = await params;
-  const region = await getRegionBySlug(slug);
+  const { region: segment } = await params;
+  const region = await getRegionBySlug(regionSlugFromSegment(segment));
   if (!region) notFound();
 
   const rules = await getBacklinkRules();
@@ -82,10 +84,7 @@ export default async function RegionPage({ params }: Props) {
     answer: renderInline(faq.answer, opts),
   }));
 
-  const crumbs: Crumb[] = [
-    { name: "Regions", href: "/region" },
-    { name: region.name, href: `/region/${region.slug}` },
-  ];
+  const crumbs: Crumb[] = regionBreadcrumbs(region);
 
   return (
     <>
@@ -96,10 +95,10 @@ export default async function RegionPage({ params }: Props) {
         data={collectionPageSchema({
           name: `${region.name} treks`,
           description: region.metaDescription || region.headline,
-          url: `/region/${region.slug}`,
+          url: `/nepal-trekking-routes/${region.slug}-region`,
           items: region.itineraries.map((trip) => ({
             name: trip.title,
-            url: `/itinerary/${trip.slug}`,
+            url: `/trip/${trip.slug}`,
           })),
         })}
       />
@@ -108,7 +107,7 @@ export default async function RegionPage({ params }: Props) {
           id="region-faq"
           data={faqSchema(
             region.faqs.map((f) => ({ question: f.question, answer: f.answer })),
-            `/region/${region.slug}`,
+            `/nepal-trekking-routes/${region.slug}-region`,
           )}
         />
       )}

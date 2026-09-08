@@ -23,6 +23,7 @@ import {
 } from "@/lib/schema";
 
 import { JsonLd } from "@/components/json-ld";
+import { trekBreadcrumbs } from "@/utils/generateBreadcrumbSchema";
 import { Breadcrumbs } from "@/components/site/breadcrumbs";
 import { KeyTakeaways } from "@/components/site/key-takeaways";
 import { SpecsRibbon, type Spec } from "@/components/site/specs-ribbon";
@@ -33,6 +34,7 @@ import { ReviewSection } from "@/components/site/reviews";
 import { TableOfContents } from "@/components/site/table-of-contents";
 import { MainSiteCta } from "@/components/site/main-site-cta";
 import { AdSlot } from "@/components/site/ad-slot";
+import { PriceTiers } from "@/components/site/price-tiers";
 import { TripCard } from "@/components/site/trip-card";
 import { BlogCard } from "@/components/site/blog-card";
 import { Stars } from "@/components/ui/stars";
@@ -67,12 +69,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title,
     description,
     keywords: splitList(trip.keywords),
-    alternates: { canonical: trip.canonicalUrl || `/itinerary/${trip.slug}` },
+    alternates: { canonical: trip.canonicalUrl || `/trip/${trip.slug}` },
     openGraph: {
       type: "article",
       title,
       description,
-      url: `/itinerary/${trip.slug}`,
+      url: `/trip/${trip.slug}`,
       images: image ? [{ url: image, alt: trip.bannerAlt || trip.title }] : undefined,
       publishedTime: isoDate(trip.publishedAt),
       modifiedTime: isoDate(trip.updatedAt),
@@ -124,11 +126,7 @@ export default async function ItineraryPage({ params }: Props) {
   const excludes = splitLines(trip.excludes);
   const gallery = splitLines(trip.gallery);
 
-  const crumbs: Crumb[] = [
-    { name: "Treks", href: "/itinerary" },
-    ...(trip.region ? [{ name: trip.region.name, href: `/region/${trip.region.slug}` }] : []),
-    { name: trip.title, href: `/itinerary/${trip.slug}` },
-  ];
+  const crumbs: Crumb[] = trekBreadcrumbs(trip);
 
   const specs: Spec[] = [
     trip.durationDays
@@ -157,7 +155,9 @@ export default async function ItineraryPage({ params }: Props) {
     highlights.length ? { id: "highlights", text: "Trip highlights" } : null,
     days.length ? { id: "itinerary", text: "Day-by-day itinerary" } : null,
     days.length ? { id: "route-table", text: "Route & altitude table" } : null,
-    includes.length || excludes.length ? { id: "cost", text: "Cost includes & excludes" } : null,
+    trip.tiers.length || includes.length || excludes.length
+      ? { id: "cost", text: "Price & group discounts" }
+      : null,
     gallery.length ? { id: "gallery", text: "Gallery" } : null,
     faqs.length ? { id: "faqs", text: "FAQs" } : null,
     { id: "reviews", text: "Reviews" },
@@ -175,7 +175,7 @@ export default async function ItineraryPage({ params }: Props) {
           id="trip-faq"
           data={faqSchema(
             trip.faqs.map((f) => ({ question: f.question, answer: f.answer })),
-            `/itinerary/${trip.slug}`,
+            `/trip/${trip.slug}`,
           )}
         />
       )}
@@ -239,12 +239,15 @@ export default async function ItineraryPage({ params }: Props) {
                 </a>
                 {trip.priceFrom > 0 && (
                   <p className="text-sm text-white/80">
-                    <span className="text-2xl font-extrabold text-white">
+                    <span className="text-3xl font-extrabold text-white">
                       {formatPrice(trip.priceFrom, trip.currency)}
-                    </span>{" "}
-                    per person
-                    {trip.priceTo > trip.priceFrom &&
-                      ` · up to ${formatPrice(trip.priceTo, trip.currency)}`}
+                    </span>
+                    {trip.priceRegular > trip.priceFrom && (
+                      <span className="ml-2 text-base font-medium text-white/60 line-through">
+                        {formatPrice(trip.priceRegular, trip.currency)}
+                      </span>
+                    )}
+                    <span className="ml-1">per person</span>
                   </p>
                 )}
               </div>
@@ -344,11 +347,27 @@ export default async function ItineraryPage({ params }: Props) {
               </>
             )}
 
-            {(includes.length > 0 || excludes.length > 0) && (
+            {(trip.tiers.length > 0 || includes.length > 0 || excludes.length > 0) && (
               <section id="cost" className="mt-12 scroll-mt-28">
                 <h2 className="text-2xl font-bold text-ink-900 sm:text-3xl">
-                  What the cost includes
+                  Price &amp; what it covers
                 </h2>
+
+                {trip.tiers.length > 0 && (
+                  <div className="mt-5">
+                    <PriceTiers
+                      tiers={trip.tiers.map((t) => ({
+                        id: t.id,
+                        label: t.label,
+                        price: t.price,
+                        note: t.note,
+                      }))}
+                      currency={trip.currency}
+                      priceFrom={trip.priceFrom}
+                      priceRegular={trip.priceRegular}
+                    />
+                  </div>
+                )}
                 <div className="mt-5 grid gap-5 sm:grid-cols-2">
                   {includes.length > 0 && (
                     <div className="rounded-2xl border border-brand-200 bg-brand-50/50 p-5">
@@ -473,7 +492,7 @@ export default async function ItineraryPage({ params }: Props) {
                     {relatedTrips.map((item) => (
                       <li key={item.id}>
                         <Link
-                          href={`/itinerary/${item.slug}`}
+                          href={`/trip/${item.slug}`}
                           className="group flex gap-3 rounded-xl p-1 transition hover:bg-ink-50"
                         >
                           {item.bannerImage && (

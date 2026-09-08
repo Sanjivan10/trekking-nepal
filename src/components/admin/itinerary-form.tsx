@@ -91,7 +91,7 @@ export function ItineraryForm({
       onStatusChange={(value) => set("status", value)}
       onSave={save}
       onDelete={draft.id ? remove : undefined}
-      previewHref={draft.slug ? `/itinerary/${draft.slug}` : undefined}
+      previewHref={draft.slug ? `/trip/${draft.slug}` : undefined}
       saving={saving}
       saved={saved}
       error={error}

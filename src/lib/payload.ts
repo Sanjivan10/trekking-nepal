@@ -174,3 +174,22 @@ export function publishStamp(status: string, existing?: Date | null) {
   if (status !== "published") return null;
   return existing ?? new Date();
 }
+
+export function testimonialPayload(body: Body) {
+  return {
+    source: ["google", "tripadvisor", "direct"].includes(str(body.source))
+      ? str(body.source)
+      : "google",
+    authorName: str(body.authorName).slice(0, 120),
+    authorMeta: str(body.authorMeta).slice(0, 160),
+    rating: Math.min(5, Math.max(1, int(body.rating, 5))),
+    dateLabel: str(body.dateLabel).slice(0, 60),
+    body: str(body.body).slice(0, 4000),
+    ownerReply: str(body.ownerReply).slice(0, 4000),
+    sourceUrl: str(body.sourceUrl),
+    tripName: str(body.tripName).slice(0, 120),
+    featured: bool(body.featured),
+    position: int(body.position),
+    published: bool(body.published, true),
+  };
+}

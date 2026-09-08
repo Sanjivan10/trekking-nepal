@@ -84,6 +84,9 @@ export const tripCardSelect = {
   ratingValue: true,
   reviewCount: true,
   featured: true,
+  priority: true,
+  priceRegular: true,
+  groupSize: true,
   entityTags: true,
   region: { select: { name: true, slug: true } },
 } as const;
@@ -91,7 +94,9 @@ export const tripCardSelect = {
 export function getPublishedItineraries(opts: { take?: number; skip?: number } = {}) {
   return prisma.itinerary.findMany({
     where: PUBLISHED,
-    orderBy: [{ featured: "desc" }, { publishedAt: "desc" }],
+    // Explicit priority drives the running order: 1 = EBC, 2 = Manaslu,
+    // 3 = Annapurna. Everything else sits at 50+.
+    orderBy: [{ priority: "asc" }, { featured: "desc" }, { publishedAt: "desc" }],
     select: tripCardSelect,
     take: opts.take,
     skip: opts.skip,
@@ -105,6 +110,7 @@ export function getItineraryBySlug(slug: string) {
       days: { orderBy: { dayNumber: "asc" } },
       faqs: { orderBy: { position: "asc" } },
       reviews: { where: { approved: true }, orderBy: { reviewedAt: "desc" } },
+      tiers: { orderBy: { position: "asc" } },
       region: { select: { name: true, slug: true } },
     },
   });
@@ -126,7 +132,7 @@ export function getRegionBySlug(slug: string) {
       faqs: { orderBy: { position: "asc" } },
       itineraries: {
         where: PUBLISHED,
-        orderBy: [{ featured: "desc" }, { durationDays: "asc" }],
+        orderBy: [{ priority: "asc" }, { durationDays: "asc" }],
         select: tripCardSelect,
       },
       blogs: {
@@ -157,7 +163,7 @@ export async function getRelatedItineraries(source: Taggable, take = 4) {
     where: { ...PUBLISHED, id: { not: source.id } },
     select: tripCardSelect,
     take: 40,
-    orderBy: [{ featured: "desc" }, { ratingValue: "desc" }],
+    orderBy: [{ priority: "asc" }, { ratingValue: "desc" }],
   });
   return candidates
     .map((item) => ({ item, score: relevance(source, item) }))
@@ -194,5 +200,16 @@ export async function recomputeRating(itineraryId: string) {
       ratingValue: agg._avg.rating ? Number(agg._avg.rating.toFixed(2)) : 0,
       reviewCount: agg._count._all,
     },
+  });
+}
+
+/* ------------------------------ testimonials ----------------------------- */
+
+/** Third-party reviews (Google / TripAdvisor) shown as social proof. */
+export function getTestimonials(opts: { take?: number; featuredOnly?: boolean } = {}) {
+  return prisma.testimonial.findMany({
+    where: { published: true, ...(opts.featuredOnly ? { featured: true } : {}) },
+    orderBy: [{ featured: "desc" }, { position: "asc" }],
+    take: opts.take,
   });
 }

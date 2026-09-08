@@ -24,7 +24,7 @@ export function TrekFinder({
     if (region) params.set("region", region);
     if (duration) params.set("duration", duration);
     if (difficulty) params.set("difficulty", difficulty);
-    router.push(`/itinerary${params.toString() ? `?${params}` : ""}`);
+    router.push(`/nepal-trekking-routes${params.toString() ? `?${params}` : ""}`);
   }
 
   return (

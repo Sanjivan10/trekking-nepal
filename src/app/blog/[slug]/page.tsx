@@ -101,7 +101,7 @@ export default async function BlogPostPage({ params }: Props) {
 
   const crumbs: Crumb[] = [
     { name: "Blog", href: "/blog" },
-    ...(post.region ? [{ name: post.region.name, href: `/region/${post.region.slug}` }] : []),
+    ...(post.region ? [{ name: post.region.name, href: `/nepal-trekking-routes/${post.region.slug}-region` }] : []),
     { name: post.title, href: `/blog/${post.slug}` },
   ];
 
@@ -327,7 +327,7 @@ export default async function BlogPostPage({ params }: Props) {
                     {relatedTrips.map((trip) => (
                       <li key={trip.id}>
                         <Link
-                          href={`/itinerary/${trip.slug}`}
+                          href={`/trip/${trip.slug}`}
                           className="group flex gap-3 rounded-xl p-1 transition hover:bg-ink-50"
                         >
                           {trip.bannerImage && (
@@ -358,7 +358,7 @@ export default async function BlogPostPage({ params }: Props) {
                     ))}
                   </ul>
                   <Link
-                    href="/itinerary"
+                    href="/nepal-trekking-routes"
                     className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-brand-700 hover:gap-2.5"
                   >
                     All itineraries
