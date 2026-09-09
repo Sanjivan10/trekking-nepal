@@ -31,7 +31,7 @@ export type ClusterPost = {
   primaryKeywords: string;
   secondaryKeywords: string;
   entityTags: string;
-  regionSlug: "manaslu" | "annapurna";
+  regionSlug: "manaslu" | "annapurna" | "everest";
   keyTakeaway: string;
   takeaways: string;
   content: string;
