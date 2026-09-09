@@ -1,6 +1,16 @@
+/**
+ * Env values are trimmed before use. Pasting a URL into a hosting dashboard
+ * very easily picks up a trailing newline or space, and an untrimmed value
+ * silently produces broken links like "https://site.com\n/trip/foo".
+ */
+const env = (value: string | undefined, fallback: string) => (value?.trim() || fallback).trim();
+
 export const mainSite = {
-  url: (process.env.NEXT_PUBLIC_MAIN_SITE_URL || "https://www.beyondthelimitstreks.com").replace(/\/$/, ""),
-  name: process.env.NEXT_PUBLIC_MAIN_SITE_NAME || "Beyond The Limits Treks and Expedition",
+  url: env(process.env.NEXT_PUBLIC_MAIN_SITE_URL, "https://www.beyondthelimitstreks.com").replace(
+    /\/+$/,
+    "",
+  ),
+  name: env(process.env.NEXT_PUBLIC_MAIN_SITE_NAME, "Beyond The Limits Treks and Expedition"),
 };
 
 export const MAIN_SITE_ID = `${mainSite.url}/#organization`;
