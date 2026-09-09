@@ -111,7 +111,9 @@ async function main() {
         data: {
           slug: post.slug,
           ...data,
-          publishedAt: daysAgo(2 - index),
+          // Published now, not backdated — these are new posts, and a
+          // stale date buries them at the bottom of a date-ordered listing.
+          publishedAt: new Date(Date.now() - (howToPosts.length - index) * 3600_000),
           faqs: { create: post.faqs.map((f, i) => ({ ...f, position: i })) },
         },
       });
