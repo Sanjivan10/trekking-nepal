@@ -16,10 +16,10 @@ function readingTime(markdown: string) {
 }
 
 const AUTHOR = {
-  author: "Pemba Sherpa",
-  authorTitle: "Lead trekking guide, 14 seasons in the Khumbu and Manaslu",
+  author: "Sanjivan Dhakal",
+  authorTitle: "SEO Specialist",
   authorBio:
-    "Pemba has guided over 90 treks to Everest Base Camp and 30 Manaslu Circuits since 2011. He holds a Nepal Government trekking guide licence and Wilderness First Responder certification.",
+    "Sanjivan Dhakal is an SEO specialist focused on search and answer-engine visibility for trekking and travel content. He builds and maintains this site.",
 };
 
 /** Inbound links: [target post slug] <- [source slug, anchor text, sentence to append after] */

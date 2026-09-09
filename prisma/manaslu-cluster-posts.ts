@@ -5,7 +5,7 @@
  * and Annapurna trip/region pages, and — per the brief — to three specific
  * posts on beyondthelimitstreks.com.
  *
- * Author is Pemba Sherpa throughout, matching the existing site convention
+ * Author is Sanjivan Dhakal throughout, matching the existing site convention
  * (consistent E-E-A-T signal beats a roster of one-off bylines).
  */
 
@@ -16,8 +16,8 @@ const BTL_ITINERARY =
   "https://www.beyondthelimitstreks.com/blog/manaslu-circuit-trek-itinerarya";
 
 const AUTHOR = {
-  author: "Pemba Sherpa",
-  authorTitle: "Lead trekking guide, 14 seasons in the Khumbu and Manaslu",
+  author: "Sanjivan Dhakal",
+  authorTitle: "SEO Specialist",
 };
 
 export type ClusterPost = {

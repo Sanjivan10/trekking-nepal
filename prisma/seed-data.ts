@@ -470,10 +470,10 @@ export const blogs = [
       "What the Everest Base Camp trek really costs in 2026: permits, flights, guides, teahouses and hidden extras, with realistic budget, mid-range and premium totals.",
     excerpt:
       "Permits, Lukla flights, guides, porters, teahouses and the extras nobody quotes you — a line-by-line breakdown of what an Everest Base Camp trek actually costs.",
-    author: "Pemba Sherpa",
-    authorTitle: "Lead trekking guide, 14 seasons in the Khumbu",
+    author: "Sanjivan Dhakal",
+    authorTitle: "SEO Specialist",
     authorBio:
-      "Pemba has guided over 90 treks to Everest Base Camp since 2011 and holds a Nepal Government trekking guide licence and Wilderness First Responder certification. He grew up in Khumjung, a day's walk from Namche Bazaar.",
+      "Sanjivan Dhakal is an SEO specialist focused on search and answer-engine visibility for trekking and travel content. He builds and maintains this site.",
     bannerImage:
       "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=1600&q=72",
     bannerAlt: "Teahouse lodges at Dingboche on the Everest Base Camp trail",
@@ -549,10 +549,10 @@ Those totals include the package, insurance, tips, teahouse extras and a couple 
       "How to prevent altitude sickness on Nepal treks: safe ascent rates, recognising AMS, HACE and HAPE symptoms, Diamox use, and the rules for when to descend.",
     excerpt:
       "Altitude sickness is the most common reason trekkers fail to reach Base Camp — and it is almost entirely preventable with the right ascent rate.",
-    author: "Dr. Anjali Gurung",
-    authorTitle: "Expedition physician, Himalayan Rescue Association",
+    author: "Sanjivan Dhakal",
+    authorTitle: "SEO Specialist",
     authorBio:
-      "Dr. Gurung has worked five seasons at the Himalayan Rescue Association aid posts in Pheriche and Manang, treating altitude illness at 4,200 m and above.",
+      "Sanjivan Dhakal is an SEO specialist focused on search and answer-engine visibility for trekking and travel content. He builds and maintains this site.",
     bannerImage:
       "https://images.unsplash.com/photo-1454391304352-2bf4678b1a7a?auto=format&fit=crop&w=1600&q=72",
     bannerAlt: "Trekkers walking slowly at high altitude on a Himalayan trail",
@@ -616,10 +616,10 @@ The altitude will still be there next year. Tell your guide about symptoms early
       "Compare the Manaslu Circuit and Everest Base Camp treks on difficulty, cost, crowds, scenery and permits, with a clear recommendation for each type of trekker.",
     excerpt:
       "Two 14-day treks, two very different experiences. A direct comparison on difficulty, cost, crowds and what you actually see.",
-    author: "Pemba Sherpa",
-    authorTitle: "Lead trekking guide, 14 seasons in the Khumbu",
+    author: "Sanjivan Dhakal",
+    authorTitle: "SEO Specialist",
     authorBio:
-      "Pemba has guided over 90 treks to Everest Base Camp and 30 Manaslu Circuits since 2011. He holds a Nepal Government trekking guide licence and Wilderness First Responder certification.",
+      "Sanjivan Dhakal is an SEO specialist focused on search and answer-engine visibility for trekking and travel content. He builds and maintains this site.",
     bannerImage:
       "https://images.unsplash.com/photo-1486911278844-a81c5267e227?auto=format&fit=crop&w=1600&q=72",
     bannerAlt: "Prayer flags on a high Himalayan pass in Nepal",
